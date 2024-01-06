@@ -1,0 +1,12 @@
+{
+  "generator-springboot": {
+    "appName": "trackstrava",
+    "packageName": "me.sathish.trackstrava",
+    "databaseType": "postgresql",
+    "dbMigrationTool": "none",
+    "dbMigrationFormat": "yaml",
+    "features": [],
+    "buildTool": "maven",
+    "packageFolder": "me/sathish/trackstrava"
+  }
+}
