@@ -1,6 +1,6 @@
 package me.sathish.trackstrava.utils;
 
-public final class AppConstants {
+public final class StravaMSAppConstants {
     public static final String PROFILE_PROD = "prod";
     public static final String PROFILE_NOT_PROD = "!" + PROFILE_PROD;
     public static final String PROFILE_TEST = "test";

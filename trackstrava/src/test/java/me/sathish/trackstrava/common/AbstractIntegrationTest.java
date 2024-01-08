@@ -1,6 +1,6 @@
 package me.sathish.trackstrava.common;
 
-import static me.sathish.trackstrava.utils.AppConstants.PROFILE_TEST;
+import static me.sathish.trackstrava.utils.StravaMSAppConstants.PROFILE_TEST;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
