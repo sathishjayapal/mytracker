@@ -7,11 +7,14 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import java.util.Objects;
+
+import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.Hibernate;
+import org.hibernate.annotations.GenericGenerator;
 
 @Entity
 @Table(name = "strava_users")
@@ -19,8 +22,23 @@ import org.hibernate.Hibernate;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class StravaUser {
+public class StravaUser extends StravaMSBaseEntity{
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
+    @GenericGenerator(name = "native", strategy = "native")
+    @Column(name = "customer_id")
+    private Long customerId;
 
+    @Column(nullable = false)
+    @NotEmpty(message = "Name cannot be empty")
+    private String name;
+
+    @Column(nullable = false)
+    @NotEmpty(message = "Email cannot be empty")
+    private String email;
+
+    @Column(name = "phone_number")
+    private String phoneNumber;
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
