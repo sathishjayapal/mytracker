@@ -26,8 +26,7 @@ public class StravaUserService {
     private final StravaUserRepository stravaUserRepository;
     private final StravaUserMapper stravaUserMapper;
 
-    public PagedResult<StravaUser> findAllStravaUsers(
-            FindStravaUsersQuery findStravaUsersQuery) {
+    public PagedResult<StravaUser> findAllStravaUsers(FindStravaUsersQuery findStravaUsersQuery) {
 
         // create Pageable instance
         Pageable pageable = createPageable(findStravaUsersQuery);

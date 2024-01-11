@@ -1,16 +1,13 @@
-package me.sathish.trackstrava.web.controllers;
+package me.sathish.trackstrava.controllers;
 
 import jakarta.validation.Valid;
 import java.net.URI;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import me.sathish.trackstrava.exception.StravaUserNotFoundException;
-import me.sathish.trackstrava.model.query.FindStravaUsersQuery;
 import me.sathish.trackstrava.model.request.StravaUserRequest;
-import me.sathish.trackstrava.model.response.PagedResult;
 import me.sathish.trackstrava.model.response.StravaUserResponse;
 import me.sathish.trackstrava.services.StravaUserService;
-import me.sathish.trackstrava.utils.StravaMSAppConstants;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -20,7 +17,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -31,7 +27,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 public class StravaUserController {
 
     private final StravaUserService stravaUserService;
-
 
     @GetMapping("/{id}")
     public ResponseEntity<StravaUserResponse> getStravaUserById(@PathVariable Long id) {

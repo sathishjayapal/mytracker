@@ -14,38 +14,38 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import java.util.ArrayList;
 import java.util.List;
 import me.sathish.trackstrava.common.AbstractIntegrationTest;
-import me.sathish.trackstrava.entities.StravaUser;
-import me.sathish.trackstrava.model.request.StravaUserRequest;
-import me.sathish.trackstrava.repositories.StravaUserRepository;
+import me.sathish.trackstrava.entities.StravaRun;
+import me.sathish.trackstrava.model.request.StravaRunRequest;
+import me.sathish.trackstrava.repositories.StravaRunRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 
-class StravaUserControllerIT extends AbstractIntegrationTest {
+class StravaRunControllerIT extends AbstractIntegrationTest {
 
-//    @Autowired private StravaUserRepository stravaUserRepository;
+//    @Autowired private StravaRunRepository stravaRunRepository;
 //
-//    private List<StravaUser> stravaUserList = null;
+//    private List<StravaRun> stravaRunList = null;
 //
 //    @BeforeEach
 //    void setUp() {
-//        stravaUserRepository.deleteAllInBatch();
+//        stravaRunRepository.deleteAllInBatch();
 //
-//        stravaUserList = new ArrayList<>();
-//        stravaUserList.add(new StravaUser(null, "First StravaUser"));
-//        stravaUserList.add(new StravaUser(null, "Second StravaUser"));
-//        stravaUserList.add(new StravaUser(null, "Third StravaUser"));
-//        stravaUserList = stravaUserRepository.saveAll(stravaUserList);
+//        stravaRunList = new ArrayList<>();
+//        stravaRunList.add(new StravaRun(null, "First StravaRun"));
+//        stravaRunList.add(new StravaRun(null, "Second StravaRun"));
+//        stravaRunList.add(new StravaRun(null, "Third StravaRun"));
+//        stravaRunList = stravaRunRepository.saveAll(stravaRunList);
 //    }
 //
 //    @Test
-//    void shouldFetchAllStravaUsers() throws Exception {
+//    void shouldFetchAllStravaRuns() throws Exception {
 //        this.mockMvc
-//                .perform(get("/api/stravauser"))
+//                .perform(get("/api/stravarun"))
 //                .andExpect(status().isOk())
-//                .andExpect(jsonPath("$.data.size()", is(stravaUserList.size())))
+//                .andExpect(jsonPath("$.data.size()", is(stravaRunList.size())))
 //                .andExpect(jsonPath("$.totalElements", is(3)))
 //                .andExpect(jsonPath("$.pageNumber", is(1)))
 //                .andExpect(jsonPath("$.totalPages", is(1)))
@@ -56,47 +56,47 @@ class StravaUserControllerIT extends AbstractIntegrationTest {
 //    }
 //
 //    @Test
-//    void shouldFindStravaUserById() throws Exception {
-//        StravaUser stravaUser = stravaUserList.get(0);
-//        Long stravaUserId = stravaUser.getId();
+//    void shouldFindStravaRunById() throws Exception {
+//        StravaRun stravaRun = stravaRunList.get(0);
+//        Long stravaRunId = stravaRun.getId();
 //
 //        this.mockMvc
-//                .perform(get("/api/stravauser/{id}", stravaUserId))
+//                .perform(get("/api/stravarun/{id}", stravaRunId))
 //                .andExpect(status().isOk())
-//                .andExpect(jsonPath("$.id", is(stravaUser.getId()), Long.class))
-//                .andExpect(jsonPath("$.text", is(stravaUser.getText())));
+//                .andExpect(jsonPath("$.id", is(stravaRun.getId()), Long.class))
+//                .andExpect(jsonPath("$.text", is(stravaRun.getText())));
 //    }
 //
 //    @Test
-//    void shouldCreateNewStravaUser() throws Exception {
-//        StravaUserRequest stravaUserRequest = new StravaUserRequest("New StravaUser");
+//    void shouldCreateNewStravaRun() throws Exception {
+//        StravaRunRequest stravaRunRequest = new StravaRunRequest("New StravaRun");
 //        this.mockMvc
 //                .perform(
-//                        post("/api/stravauser")
+//                        post("/api/stravarun")
 //                                .contentType(MediaType.APPLICATION_JSON)
-//                                .content(objectMapper.writeValueAsString(stravaUserRequest)))
+//                                .content(objectMapper.writeValueAsString(stravaRunRequest)))
 //                .andExpect(status().isCreated())
 //                .andExpect(header().exists(HttpHeaders.LOCATION))
 //                .andExpect(jsonPath("$.id", notNullValue()))
-//                .andExpect(jsonPath("$.text", is(stravaUserRequest.text())));
+//                .andExpect(jsonPath("$.text", is(stravaRunRequest.text())));
 //    }
 //
 //    @Test
-//    void shouldReturn400WhenCreateNewStravaUserWithoutText() throws Exception {
-//        StravaUserRequest stravaUserRequest = new StravaUserRequest(null);
+//    void shouldReturn400WhenCreateNewStravaRunWithoutText() throws Exception {
+//        StravaRunRequest stravaRunRequest = new StravaRunRequest(null);
 //
 //        this.mockMvc
 //                .perform(
-//                        post("/api/stravauser")
+//                        post("/api/stravarun")
 //                                .contentType(MediaType.APPLICATION_JSON)
-//                                .content(objectMapper.writeValueAsString(stravaUserRequest)))
+//                                .content(objectMapper.writeValueAsString(stravaRunRequest)))
 //                .andExpect(status().isBadRequest())
 //                .andExpect(header().string("Content-Type", is("application/problem+json")))
 //                .andExpect(jsonPath("$.type", is("about:blank")))
 //                .andExpect(jsonPath("$.title", is("Constraint Violation")))
 //                .andExpect(jsonPath("$.status", is(400)))
 //                .andExpect(jsonPath("$.detail", is("Invalid request content.")))
-//                .andExpect(jsonPath("$.instance", is("/api/stravauser")))
+//                .andExpect(jsonPath("$.instance", is("/api/stravarun")))
 //                .andExpect(jsonPath("$.violations", hasSize(1)))
 //                .andExpect(jsonPath("$.violations[0].field", is("text")))
 //                .andExpect(jsonPath("$.violations[0].message", is("Text cannot be empty")))
@@ -104,28 +104,28 @@ class StravaUserControllerIT extends AbstractIntegrationTest {
 //    }
 //
 //    @Test
-//    void shouldUpdateStravaUser() throws Exception {
-//        Long stravaUserId = stravaUserList.get(0).getId();
-//        StravaUserRequest stravaUserRequest = new StravaUserRequest("Updated StravaUser");
+//    void shouldUpdateStravaRun() throws Exception {
+//        Long stravaRunId = stravaRunList.get(0).getId();
+//        StravaRunRequest stravaRunRequest = new StravaRunRequest("Updated StravaRun");
 //
 //        this.mockMvc
 //                .perform(
-//                        put("/api/stravauser/{id}", stravaUserId)
+//                        put("/api/stravarun/{id}", stravaRunId)
 //                                .contentType(MediaType.APPLICATION_JSON)
-//                                .content(objectMapper.writeValueAsString(stravaUserRequest)))
+//                                .content(objectMapper.writeValueAsString(stravaRunRequest)))
 //                .andExpect(status().isOk())
-//                .andExpect(jsonPath("$.id", is(stravaUserId), Long.class))
-//                .andExpect(jsonPath("$.text", is(stravaUserRequest.text())));
+//                .andExpect(jsonPath("$.id", is(stravaRunId), Long.class))
+//                .andExpect(jsonPath("$.text", is(stravaRunRequest.text())));
 //    }
 //
 //    @Test
-//    void shouldDeleteStravaUser() throws Exception {
-//        StravaUser stravaUser = stravaUserList.get(0);
+//    void shouldDeleteStravaRun() throws Exception {
+//        StravaRun stravaRun = stravaRunList.get(0);
 //
 //        this.mockMvc
-//                .perform(delete("/api/stravauser/{id}", stravaUser.getId()))
+//                .perform(delete("/api/stravarun/{id}", stravaRun.getId()))
 //                .andExpect(status().isOk())
-//                .andExpect(jsonPath("$.id", is(stravaUser.getId()), Long.class))
-//                .andExpect(jsonPath("$.text", is(stravaUser.getText())));
+//                .andExpect(jsonPath("$.id", is(stravaRun.getId()), Long.class))
+//                .andExpect(jsonPath("$.text", is(stravaRun.getText())));
 //    }
 }

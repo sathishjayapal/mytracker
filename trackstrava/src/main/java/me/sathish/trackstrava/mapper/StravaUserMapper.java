@@ -11,17 +11,25 @@ public class StravaUserMapper {
 
     public StravaUser toEntity(StravaUserRequest stravaUserRequest) {
         StravaUser stravaUser = new StravaUser();
-        stravaUser.setText(stravaUserRequest.text());
+        stravaUser.setPhoneNumber(stravaUserRequest.phoneNumber());
+        stravaUser.setEmail(stravaUserRequest.email());
+        stravaUser.setName(stravaUserRequest.name());
         return stravaUser;
     }
 
     public void mapStravaUserWithRequest(
             StravaUser stravaUser, StravaUserRequest stravaUserRequest) {
-        stravaUser.setText(stravaUserRequest.text());
+        stravaUser.setPhoneNumber(stravaUserRequest.phoneNumber());
+        stravaUser.setEmail(stravaUserRequest.email());
+        stravaUser.setName(stravaUserRequest.name());
     }
 
     public StravaUserResponse toResponse(StravaUser stravaUser) {
-        return new StravaUserResponse(stravaUser.getId(), stravaUser.getText());
+        return new StravaUserResponse(
+                stravaUser.getCustomerId(),
+                stravaUser.getName(),
+                stravaUser.getEmail(),
+                stravaUser.getPhoneNumber());
     }
 
     public List<StravaUserResponse> toResponseList(List<StravaUser> stravaUserList) {
