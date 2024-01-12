@@ -45,7 +45,7 @@ public class StravaRunController {
         URI location =
                 ServletUriComponentsBuilder.fromCurrentRequest()
                         .path("/api/stravarun/{id}")
-                        .buildAndExpand(response.id())
+                        .buildAndExpand(response.run_number())
                         .toUri();
         return ResponseEntity.created(location).body(response);
     }

@@ -2,6 +2,8 @@ package me.sathish.trackstrava.services;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.random.RandomGenerator;
+
 import lombok.RequiredArgsConstructor;
 import me.sathish.trackstrava.entities.StravaRun;
 import me.sathish.trackstrava.exception.StravaRunNotFoundException;
@@ -32,6 +34,8 @@ public class StravaRunService {
     @Transactional
     public StravaRunResponse saveStravaRun(StravaRunRequest stravaRunRequest) {
         StravaRun stravaRun = stravaRunMapper.toEntity(stravaRunRequest);
+        stravaRun.setRun_number(RandomGenerator.getDefault().nextLong());
+        stravaRun.setCustomerId(RandomGenerator.getDefault().nextLong(0L,Long.MAX_VALUE));
         StravaRun savedStravaRun = stravaRunRepository.save(stravaRun);
         return stravaRunMapper.toResponse(savedStravaRun);
     }
