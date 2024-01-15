@@ -7,6 +7,8 @@ public class TestApplication {
 
     public static void main(String[] args) {
         System.setProperty("spring.profiles.active", "local");
-        SpringApplication.from(Application::main).with(ContainersConfig.class).run(args);
+        SpringApplication.from(GarminMSApplication::main)
+                .with(ContainersConfig.class)
+                .run(args);
     }
 }
