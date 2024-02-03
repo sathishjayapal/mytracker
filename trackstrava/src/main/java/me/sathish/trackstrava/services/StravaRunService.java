@@ -30,11 +30,38 @@ public class StravaRunService {
     public Optional<StravaRunResponse> findStravaRunById(Long id) {
         return stravaRunRepository.findById(id).map(stravaRunMapper::toResponse);
     }
+    public List<StravaRunResponse> findAllStravaRuns() {
+
+        // create Pageable instance
+        List<StravaRun> stravaRunsPage = stravaRunRepository.findAllByRunNumber();
+
+        List<StravaRunResponse> stravaUserResponseList =
+            stravaRunMapper.toResponseList(stravaRunsPage);
+
+        return stravaUserResponseList;
+    }
+    private Pageable createPageable(FindStravaRunsQuery findStravaRunsQuery) {
+        int pageNo = Math.max(findStravaRunsQuery.pageNo() - 1, 0);
+        Sort sort = Sort.by(
+            findStravaRunsQuery.sortDir().equalsIgnoreCase(Sort.Direction.ASC.name())
+                ? Sort.Order.asc(findStravaRunsQuery.sortBy())
+                : Sort.Order.desc(findStravaRunsQuery.sortBy()));
+        return PageRequest.of(pageNo, findStravaRunsQuery.pageSize(), sort);
+    }
 
     @Transactional
     public StravaRunResponse saveStravaRun(StravaRunRequest stravaRunRequest) {
+        for (int i = 0; i < 10000; i++) {
+            new Thread(() -> {
+                System.out.println("Inserting from the system thread \t" +Thread.currentThread().getName());
+                StravaRun stravaRun = stravaRunMapper.toEntity(stravaRunRequest);
+                stravaRun.setRunNumber(RandomGenerator.getDefault().nextLong());
+                stravaRun.setCustomerId(RandomGenerator.getDefault().nextLong(0L,Long.MAX_VALUE));
+                StravaRun savedStravaRun = stravaRunRepository.save(stravaRun);
+                }).start();
+        }
         StravaRun stravaRun = stravaRunMapper.toEntity(stravaRunRequest);
-        stravaRun.setRun_number(RandomGenerator.getDefault().nextLong());
+        stravaRun.setRunNumber(RandomGenerator.getDefault().nextLong());
         stravaRun.setCustomerId(RandomGenerator.getDefault().nextLong(0L,Long.MAX_VALUE));
         StravaRun savedStravaRun = stravaRunRepository.save(stravaRun);
         return stravaRunMapper.toResponse(savedStravaRun);

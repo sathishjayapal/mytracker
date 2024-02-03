@@ -9,6 +9,6 @@ public class GarminMSAuditorImpl implements AuditorAware<String> {
 
     @Override
     public Optional<String> getCurrentAuditor() {
-        return Optional.of("STRAVA_MS");
+        return Optional.of("GARMIN_MS");
     }
 }

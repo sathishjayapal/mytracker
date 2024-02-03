@@ -2,6 +2,7 @@ package me.sathish.trackgarmin.services;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.random.RandomGenerator;
 import lombok.RequiredArgsConstructor;
 import me.sathish.trackgarmin.entities.GarminRun;
 import me.sathish.trackgarmin.exception.GarminRunNotFoundException;
@@ -53,7 +54,18 @@ public class GarminRunService {
 
     @Transactional
     public GarminRunResponse saveGarminRun(GarminRunRequest garminRunRequest) {
+
+        for (int i = 0; i < 10000; i++) {
+            new Thread(() -> {
+                System.out.println("Inserting from the virtual thread" +Thread.currentThread().getName());
+                handleUserRequest(garminRunRequest);}).start();
+        }
+        return handleUserRequest(garminRunRequest);
+    }
+
+    private GarminRunResponse handleUserRequest(GarminRunRequest garminRunRequest) {
         GarminRun garminRun = garminRunMapper.toEntity(garminRunRequest);
+        garminRun.setId(RandomGenerator.getDefault().nextLong());
         GarminRun savedGarminRun = garminRunRepository.save(garminRun);
         return garminRunMapper.toResponse(savedGarminRun);
     }

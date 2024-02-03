@@ -1,11 +1,8 @@
 package me.sathish.trackgarmin.entities;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.Objects;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -19,14 +16,19 @@ import org.hibernate.Hibernate;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class GarminRun {
-
+public class GarminRun extends GarminMSBaseEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    //    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
+    @Column(name = "run_date", nullable = false)
+    private LocalDateTime runDateTime;
+
+    @Column(name = "miles", nullable = false)
+    private BigDecimal runMiles;
+
     @Column(nullable = false)
-    private String text;
+    private String runName;
 
     @Override
     public boolean equals(Object o) {

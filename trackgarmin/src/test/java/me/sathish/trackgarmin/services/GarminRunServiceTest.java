@@ -26,7 +26,7 @@ class GarminRunServiceTest {
     //        assertThat(optionalGarminRun).isPresent();
     //        GarminRunResponse garminRun = optionalGarminRun.get();
     //        assertThat(garminRun.id()).isEqualTo(1L);
-    //        assertThat(garminRun.text()).isEqualTo("junitTest");
+    //        assertThat(garminRun.runName()).isEqualTo("junitTest");
     //    }
     //
     //    @Test

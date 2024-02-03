@@ -2,8 +2,6 @@ package me.sathish.trackstrava.entities;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
@@ -25,7 +23,8 @@ public class StravaRun extends StravaMSBaseEntity{
     @Column(name = "customer_id")
     private Long customerId;
     @Id
-    private Long run_number;
+    @Column(name = "run_number")
+    private Long runNumber;
     @Column(nullable = false)
     private String run_name;
     @Column(nullable = false)
@@ -39,7 +38,7 @@ public class StravaRun extends StravaMSBaseEntity{
         if (this == o) return true;
         if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
         StravaRun stravaRun = (StravaRun) o;
-        return run_number != null && Objects.equals(run_number, stravaRun.run_number);
+        return runNumber != null && Objects.equals(runNumber, stravaRun.runNumber);
     }
 
     @Override

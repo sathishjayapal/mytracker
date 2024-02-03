@@ -1,6 +1,6 @@
 package me.sathish.trackgarmin.config.logging;
 
-import me.sathish.trackgarmin.utils.AppConstants;
+import me.sathish.trackgarmin.utils.GarminMSAppConstants;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.AfterThrowing;
@@ -40,7 +40,7 @@ public class LoggingAspect {
 
     @AfterThrowing(pointcut = "applicationPackagePointcut()", throwing = "e")
     public void logAfterThrowing(JoinPoint joinPoint, Throwable e) {
-        if (env.acceptsProfiles(Profiles.of(AppConstants.PROFILE_NOT_PROD))) {
+        if (env.acceptsProfiles(Profiles.of(GarminMSAppConstants.PROFILE_NOT_PROD))) {
             log.error(
                     "Exception in {}.{}() with cause = '{}' and exception = '{}'",
                     joinPoint.getSignature().getDeclaringTypeName(),

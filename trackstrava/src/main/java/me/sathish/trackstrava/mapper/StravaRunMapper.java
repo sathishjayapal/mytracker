@@ -1,6 +1,5 @@
 package me.sathish.trackstrava.mapper;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -31,7 +30,7 @@ public class StravaRunMapper {
     }
 
     public StravaRunResponse toResponse(StravaRun stravaRun) {
-        return new StravaRunResponse(stravaRun.getRun_number(),
+        return new StravaRunResponse(stravaRun.getRunNumber(),
             stravaRun.getRun_name(),
             stravaRun.getRun_date(),
             stravaRun.getMiles(),

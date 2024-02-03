@@ -12,6 +12,7 @@
     <springProfile name="!default">
         <property name="LOG_FILE" value="logs/${appName}.log"/>
         <include resource="org/springframework/boot/logging/logback/file-appender.xml" />
+
         <root level="INFO">
             <appender-ref ref="FILE" />
             <appender-ref ref="CONSOLE" />

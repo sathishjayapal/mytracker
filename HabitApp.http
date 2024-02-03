@@ -1,0 +1,258 @@
+# HabitApp
+
+###
+# group: strava
+# @name CreateAccount
+POST http://localhost:8080/api/stravarun
+Content-Type: application/json
+
+{
+  "run_name": "Sathish Jayapal",
+  "run_date": "2022-09-20 21:02:00",
+  "miles": "5",
+  "start_location": "3434343L"
+}
+
+###
+# group: strava
+# @name FetchAccountDetails
+GET http://localhost:8080/api/accounts/findByPhone/6083183207
+
+###
+# group: strava
+# @name DeleteAccountDetails
+DELETE http://localhost:8080/api/accounts/6083183207
+
+###
+# group: strava
+# @name build-info
+GET http://localhost:8080/api/build-info
+
+###
+# group: strava
+# @name java-version
+GET http://localhost:8080/api/accounts/java-version
+
+###
+# group: strava
+# @name contact-info
+GET http://localhost:8080/api/accounts/accounts-config
+
+###
+# group: strava
+# @name RefreshConfig
+POST http://localhost:8080/actuator/refresh
+
+###
+# group: strava
+# @name BusRefresh
+POST http://localhost:8080/actuator/busrefresh
+
+###
+# group: strava
+# @name BusRefresh Copy
+POST http://localhost:8080/actuator/busrefresh
+
+###
+# group: strava
+# @name ShutDown
+POST http://localhost:8080/actuator/shutdown
+
+
+###
+# group: garmin
+# @name CreateAccount
+POST http://localhost:8080/api/garminrun
+Content-Type: application/json
+
+{
+  "runName": "Sathish Jayapal",
+  "runDateTime": "2022-09-20 21:02:00",
+  "runMiles": 5.1
+}
+
+###
+# group: garmin
+# @name getAllGarminRuns
+GET http://localhost:8080/api/accounts/findByPhone/6083183207
+
+###
+# group: garmin
+# @name DeleteAccountDetails
+DELETE http://localhost:8080/api/accounts/6083183207
+
+###
+# group: garmin
+# @name build-info
+GET http://localhost:8080/api/build-info
+
+###
+# group: garmin
+# @name java-version
+GET http://localhost:8080/api/accounts/java-version
+
+###
+# group: garmin
+# @name contact-info
+GET http://localhost:8080/api/accounts/accounts-config
+
+###
+# group: garmin
+# @name RefreshConfig
+POST http://localhost:8080/actuator/refresh
+
+###
+# group: garmin
+# @name BusRefresh
+POST http://localhost:8080/actuator/busrefresh
+
+###
+# group: garmin
+# @name BusRefresh Copy
+POST http://localhost:8080/actuator/busrefresh
+
+###
+# group: garmin
+# @name ShutDown
+POST http://localhost:8080/actuator/shutdown
+
+###
+# group: cards
+# @name CreateCard
+POST http://localhost:9000/api/cards/create/4354437687
+
+###
+# group: cards
+# @name FetchCardDetails
+GET http://localhost:9000/api/cards
+
+###
+# group: cards
+# @name UpdateCardDetails
+PUT http://localhost:9000/api/cards/update
+Content-Type: application/json
+
+{
+  "phoneNumber": "4354437687",
+  "cardNumber": "100632338449",
+  "cardType": "Debit Card",
+  "totalLimit": 100000,
+  "amountUsed": 10000,
+  "availableAmount": 90000
+}
+
+###
+# group: cards
+# @name DeleteCardDetails
+DELETE http://localhost:9000/api/cards/delete/4354437687
+
+###
+# group: cards
+# @name build-info
+GET http://localhost:9000/api/cards/build-info
+
+###
+# group: cards
+# @name java-version
+GET http://localhost:9000/api/java-version
+
+###
+# group: cards
+# @name contact-info
+GET http://127.0.0.1:9000/api/cards/card-config
+
+###
+# group: cards
+# @name RefreshConfig
+POST http://localhost:9000/actuator/refresh
+
+###
+# group: cards
+# @name ShutDown
+POST http://localhost:9000/actuator/shutdown
+
+###
+# group: loans
+# @name CreateLoan
+POST http://localhost:8070/api/loans/create/4354437687
+
+###
+# group: loans
+# @name FetchLoanDetails
+GET http://localhost:8070/api/loans
+
+###
+# group: loans
+# @name UpdateLoanDetails
+PUT http://localhost:8070/api/loans/update/4354437687
+Content-Type: application/json
+
+{
+  "phoneNumber": "4354437687",
+  "loanNumber": "100268225934",
+  "loanType": "Vehicle Loan",
+  "totalLoan": 100000,
+  "amountPaid": 10000,
+  "outstandingAmount": 90000
+}
+
+###
+# group: loans
+# @name DeleteLoanDetails
+DELETE http://localhost:8070/api/loans/4354437687
+
+###
+# group: loans
+# @name build-info
+GET http://localhost:8090/api/build-info
+
+###
+# group: loans
+# @name java-version
+GET http://localhost:8090/api/java-version
+
+###
+# group: loans
+# @name card-config
+GET http://localhost:8090/api/contact-info
+
+###
+# group: loans
+# @name RefreshConfig
+POST http://localhost:8090/actuator/refresh
+
+###
+# group: loans
+# @name ShutDown
+POST http://localhost:8090/actuator/shutdown
+
+###
+# group: configserver
+# @name decrypt
+POST http://localhost:8071/decrypt
+Content-Type: text/plain
+
+f83ac5a34ba5f4657ae8e863c063c1b69efb4d23d0c431eb134f8d1b3ed0823dee0a4b627d091455b4c6600353a3682c
+
+###
+# group: configserver
+# @name simple-req-azure
+GET http://20.66.63.223:8888/accounts/local
+
+###
+# group: configserver
+# @name simple-req Copy
+GET localhost:8888/loans/default
+
+###
+# group: eurekaserver
+# @name eureka_apps
+GET http://localhost:8070/eureka/apps/cards
+Accept: application/json
+
+##
+# group: gatewayserver
+# @name gatewayserver_2
+GET http://localhost:8072/accounts/api/fetch?
+    mobileNumber=4354437687
+

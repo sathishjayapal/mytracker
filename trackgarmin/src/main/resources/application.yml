@@ -1,49 +1,15 @@
-management:
-    endpoint:
-        health:
-            show-details: always
-    endpoints:
-        web:
-            exposure:
-                include: configprops,env,health,info,logfile,loggers,metrics,prometheus
-server:
-    port: 8080
-    shutdown: graceful
+# Golden copy for the client to communicate with Configserver ver #3
+# this property file setting will read app name "Accounts", profile "local" and use the retry logic
 spring:
     application:
-        name: trackgarmin
-    data:
-        jpa:
-            repositories:
-                bootstrap-mode: deferred
-    datasource:
-        hikari:
-            auto-commit: false
-    jmx:
-        enabled: false
-    jpa:
-        hibernate:
-            ddl-auto: none
-        open-in-view: false
-        properties:
-            hibernate:
-                connection:
-                    provider_disables_autocommit: true
-                generate_statistics: false
-                jdbc:
-                    batch_size: 25
-                    lob:
-                        non_contextual_creation: true
-                    time_zone: UTC
-                order_inserts: true
-                order_updates: true
-                query:
-                    fail_on_pagination_over_collection_fetch: true
-                    in_clause_parameter_padding: true
-                    plan_cache_max_size: 4096
-        show-sql: false
-    main:
-        allow-bean-definition-overriding: true
-    mvc:
-        problemdetails:
-            enabled: true
+        name: "trackgarmin"
+    config:
+        fail-fast: true
+        import: "optional:configserver:http://138.91.77.13:8888?fail-fast=true&max-attempts=10&max-interval=1500&multiplier=1.2&initial-interval=1100"
+    profiles:
+        active: local
+    threads:
+        virtual:
+            enabled: on
+server:
+    port: 9042

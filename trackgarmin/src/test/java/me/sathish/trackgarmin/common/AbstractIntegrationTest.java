@@ -1,6 +1,6 @@
 package me.sathish.trackgarmin.common;
 
-import static me.sathish.trackgarmin.utils.AppConstants.PROFILE_TEST;
+import static me.sathish.trackgarmin.utils.GarminMSAppConstants.PROFILE_TEST;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 
 import com.fasterxml.jackson.databind.ObjectMapper;

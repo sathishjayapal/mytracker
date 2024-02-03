@@ -10,7 +10,7 @@ import me.sathish.trackgarmin.model.request.GarminRunRequest;
 import me.sathish.trackgarmin.model.response.GarminRunResponse;
 import me.sathish.trackgarmin.model.response.PagedResult;
 import me.sathish.trackgarmin.services.GarminRunService;
-import me.sathish.trackgarmin.utils.AppConstants;
+import me.sathish.trackgarmin.utils.GarminMSAppConstants;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -34,15 +34,20 @@ public class GarminRunController {
 
     @GetMapping
     public PagedResult<GarminRunResponse> getAllGarminRuns(
-            @RequestParam(value = "pageNo", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER, required = false)
+            @RequestParam(value = "pageNo", defaultValue = GarminMSAppConstants.DEFAULT_PAGE_NUMBER, required = false)
                     int pageNo,
-            @RequestParam(value = "pageSize", defaultValue = AppConstants.DEFAULT_PAGE_SIZE, required = false)
+            @RequestParam(value = "pageSize", defaultValue = GarminMSAppConstants.DEFAULT_PAGE_SIZE, required = false)
                     int pageSize,
-            @RequestParam(value = "sortBy", defaultValue = AppConstants.DEFAULT_SORT_BY, required = false)
+            @RequestParam(value = "sortBy", defaultValue = GarminMSAppConstants.DEFAULT_SORT_BY, required = false)
                     String sortBy,
-            @RequestParam(value = "sortDir", defaultValue = AppConstants.DEFAULT_SORT_DIRECTION, required = false)
+            @RequestParam(
+                            value = "sortDir",
+                            defaultValue = GarminMSAppConstants.DEFAULT_SORT_DIRECTION,
+                            required = false)
                     String sortDir) {
         FindGarminRunsQuery findGarminRunsQuery = new FindGarminRunsQuery(pageNo, pageSize, sortBy, sortDir);
+        System.out.println("Garmin-MS The name of the thread is find all"
+                + Thread.currentThread().getName());
         return garminRunService.findAllGarminRuns(findGarminRunsQuery);
     }
 
@@ -62,6 +67,8 @@ public class GarminRunController {
                 .path("/api/garminrun/{id}")
                 .buildAndExpand(response.id())
                 .toUri();
+        System.out.println(
+                "Garmin-MS The name of the thread is " + Thread.currentThread().getName());
         return ResponseEntity.created(location).body(response);
     }
 
