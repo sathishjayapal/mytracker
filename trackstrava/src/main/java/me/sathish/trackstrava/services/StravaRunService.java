@@ -51,7 +51,7 @@ public class StravaRunService {
 
     @Transactional
     public StravaRunResponse saveStravaRun(StravaRunRequest stravaRunRequest) {
-        for (int i = 0; i < 10000; i++) {
+        for (int i = 0; i < 1000; i++) {
             new Thread(() -> {
                 System.out.println("Inserting from the system thread \t" +Thread.currentThread().getName());
                 StravaRun stravaRun = stravaRunMapper.toEntity(stravaRunRequest);

@@ -5,9 +5,7 @@ spring:
         name: "trackgarmin"
     config:
         fail-fast: true
-        import: "optional:configserver:http://138.91.77.13:8888?fail-fast=true&max-attempts=10&max-interval=1500&multiplier=1.2&initial-interval=1100"
-    profiles:
-        active: local
+        import: "optional:configserver:http://localhost:8888?fail-fast=true&max-attempts=10&max-interval=1500&multiplier=1.2&initial-interval=1100"
     threads:
         virtual:
             enabled: on
