@@ -3,17 +3,12 @@ package me.sathish.trackstrava.controllers;
 import jakarta.validation.Valid;
 import java.net.URI;
 import java.util.List;
-
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import me.sathish.trackstrava.entities.StravaRun;
 import me.sathish.trackstrava.exception.StravaRunNotFoundException;
-import me.sathish.trackstrava.model.query.FindStravaRunsQuery;
 import me.sathish.trackstrava.model.request.StravaRunRequest;
-import me.sathish.trackstrava.model.response.PagedResult;
 import me.sathish.trackstrava.model.response.StravaRunResponse;
 import me.sathish.trackstrava.services.StravaRunService;
-import me.sathish.trackstrava.utils.StravaMSAppConstants;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -23,7 +18,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -33,12 +27,14 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 @RequiredArgsConstructor
 public class StravaRunController {
     private final StravaRunService stravaRunService;
+
     @GetMapping
     public List<StravaRunResponse> getAllStravaRuns() {
         System.out.println(
-            "STRAVA-MS The name of the thread is find all" + Thread.currentThread().getName());
+                "STRAVA-MS The name of the thread is find all" + Thread.currentThread().getName());
         return stravaRunService.findAllStravaRuns();
     }
+
     @GetMapping("/{id}")
     public ResponseEntity<StravaRunResponse> getStravaRunById(@PathVariable Long id) {
         return stravaRunService
@@ -57,7 +53,7 @@ public class StravaRunController {
                         .buildAndExpand(response.run_number())
                         .toUri();
         System.out.println(
-            "Strava-MS The name of the thread is " + Thread.currentThread().getName());
+                "Strava-MS The name of the thread is " + Thread.currentThread().getName());
         return ResponseEntity.created(location).body(response);
     }
 

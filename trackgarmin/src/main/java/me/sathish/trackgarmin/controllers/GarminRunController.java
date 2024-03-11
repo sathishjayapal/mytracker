@@ -9,6 +9,8 @@ import me.sathish.trackgarmin.model.query.FindGarminRunsQuery;
 import me.sathish.trackgarmin.model.request.GarminRunRequest;
 import me.sathish.trackgarmin.model.response.GarminRunResponse;
 import me.sathish.trackgarmin.model.response.PagedResult;
+import me.sathish.trackgarmin.services.GarminRunConsumer;
+import me.sathish.trackgarmin.services.GarminRunProducer;
 import me.sathish.trackgarmin.services.GarminRunService;
 import me.sathish.trackgarmin.utils.GarminMSAppConstants;
 import org.springframework.http.ResponseEntity;
@@ -31,9 +33,12 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 public class GarminRunController {
 
     private final GarminRunService garminRunService;
+    private final GarminRunProducer garminRunProducer;
+    private final GarminRunConsumer garminRunConsumer;
 
     @GetMapping
     public PagedResult<GarminRunResponse> getAllGarminRuns(
+
             @RequestParam(value = "pageNo", defaultValue = GarminMSAppConstants.DEFAULT_PAGE_NUMBER, required = false)
                     int pageNo,
             @RequestParam(value = "pageSize", defaultValue = GarminMSAppConstants.DEFAULT_PAGE_SIZE, required = false)
@@ -45,9 +50,11 @@ public class GarminRunController {
                             defaultValue = GarminMSAppConstants.DEFAULT_SORT_DIRECTION,
                             required = false)
                     String sortDir) {
+        garminRunProducer.send();
         FindGarminRunsQuery findGarminRunsQuery = new FindGarminRunsQuery(pageNo, pageSize, sortBy, sortDir);
         System.out.println("Garmin-MS The name of the thread is find all"
                 + Thread.currentThread().getName());
+        garminRunConsumer.recieve();
         return garminRunService.findAllGarminRuns(findGarminRunsQuery);
     }
 
