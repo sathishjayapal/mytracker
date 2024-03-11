@@ -10,13 +10,14 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class StravaRunMapper {
-    DateTimeFormatter dateTimeFormatter =  DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
     public StravaRun toEntity(StravaRunRequest stravaRunRequest) {
         StravaRun stravaRun = new StravaRun();
         stravaRun.setRun_name(stravaRunRequest.run_name());
 
-        stravaRun.setRun_date(LocalDateTime.from(dateTimeFormatter.parse(stravaRunRequest.run_date())));
+        stravaRun.setRun_date(
+                LocalDateTime.from(dateTimeFormatter.parse(stravaRunRequest.run_date())));
         stravaRun.setMiles(stravaRunRequest.miles());
         stravaRun.setStart_location(stravaRunRequest.start_location());
         return stravaRun;
@@ -24,17 +25,19 @@ public class StravaRunMapper {
 
     public void mapStravaRunWithRequest(StravaRun stravaRun, StravaRunRequest stravaRunRequest) {
         stravaRun.setRun_name(stravaRunRequest.run_name());
-        stravaRun.setRun_date(LocalDateTime.from(dateTimeFormatter.parse(stravaRunRequest.run_date())));
+        stravaRun.setRun_date(
+                LocalDateTime.from(dateTimeFormatter.parse(stravaRunRequest.run_date())));
         stravaRun.setMiles(stravaRunRequest.miles());
         stravaRun.setStart_location(stravaRunRequest.start_location());
     }
 
     public StravaRunResponse toResponse(StravaRun stravaRun) {
-        return new StravaRunResponse(stravaRun.getRunNumber(),
-            stravaRun.getRun_name(),
-            stravaRun.getRun_date(),
-            stravaRun.getMiles(),
-            stravaRun.getStart_location());
+        return new StravaRunResponse(
+                stravaRun.getRunNumber(),
+                stravaRun.getRun_name(),
+                stravaRun.getRun_date(),
+                stravaRun.getMiles(),
+                stravaRun.getStart_location());
     }
 
     public List<StravaRunResponse> toResponseList(List<StravaRun> stravaRunList) {

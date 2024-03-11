@@ -13,9 +13,6 @@ public class ResourceNotFoundException extends RuntimeException {
     }
 
     public ResourceNotFoundException(String format) {
-        super(
-            String.format(
-                "%s not found with the given input data %s : '%s'",
-                format));
+        super(String.format("%s not found with the given input data %s : '%s'", format));
     }
 }
