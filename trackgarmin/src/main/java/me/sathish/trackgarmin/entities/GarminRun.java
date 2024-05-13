@@ -2,6 +2,7 @@ package me.sathish.trackgarmin.entities;
 
 import jakarta.persistence.*;
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.time.LocalDateTime;
 import java.util.Objects;
 import lombok.AllArgsConstructor;
@@ -18,17 +19,32 @@ import org.hibernate.Hibernate;
 @AllArgsConstructor
 public class GarminRun extends GarminMSBaseEntity {
     @Id
-    //    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
-    @Column(name = "run_date", nullable = false)
-    private LocalDateTime runDateTime;
-
-    @Column(name = "miles", nullable = false)
-    private BigDecimal runMiles;
+    @Column(nullable = false, unique = true)
+    private BigInteger activityID;
 
     @Column(nullable = false)
-    private String runName;
+    private String activityDate;
+
+    @Column(nullable = false)
+    private String activityType;
+
+    private String activityDescription;
+
+    @Column(nullable = false)
+    private String elapsedTime;
+
+    @Column(nullable = false)
+    private String distance;
+
+    private String calories;
+
+    private String maxHeartRate;
+
+    @Column(nullable = false)
+    private String activityName;
 
     @Override
     public boolean equals(Object o) {

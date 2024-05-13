@@ -18,6 +18,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.support.TransactionTemplate;
 
 @Service
 @Transactional(readOnly = true)
@@ -26,17 +27,19 @@ public class GarminRunService {
 
     private final GarminRunRepository garminRunRepository;
     private final GarminRunMapper garminRunMapper;
+    private final TransactionTemplate transactionTemplate;
 
     public PagedResult<GarminRunResponse> findAllGarminRuns(FindGarminRunsQuery findGarminRunsQuery) {
 
         // create Pageable instance
         Pageable pageable = createPageable(findGarminRunsQuery);
-
-        Page<GarminRun> garminRunsPage = garminRunRepository.findAll(pageable);
-
-        List<GarminRunResponse> garminRunResponseList = garminRunMapper.toResponseList(garminRunsPage.getContent());
-
-        return new PagedResult<>(garminRunsPage, garminRunResponseList);
+        return transactionTemplate.execute(status -> {
+            // do something
+            Page<GarminRun> garminRunPage = garminRunRepository.findAll(pageable);
+            List<GarminRunResponse> garminRunMapperResponseList =
+                    garminRunMapper.toResponseList(garminRunPage.getContent());
+            return new PagedResult<>(garminRunPage, garminRunMapperResponseList);
+        });
     }
 
     private Pageable createPageable(FindGarminRunsQuery findGarminRunsQuery) {
