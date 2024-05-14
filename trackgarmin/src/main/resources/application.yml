@@ -11,3 +11,4 @@ spring:
             enabled: on
 server:
     port: 9042
+
