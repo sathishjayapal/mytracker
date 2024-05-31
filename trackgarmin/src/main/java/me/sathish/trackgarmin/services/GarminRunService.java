@@ -1,8 +1,5 @@
 package me.sathish.trackgarmin.services;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.random.RandomGenerator;
 import lombok.RequiredArgsConstructor;
 import me.sathish.trackgarmin.entities.GarminRun;
 import me.sathish.trackgarmin.exception.GarminRunNotFoundException;
@@ -19,6 +16,10 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.support.TransactionTemplate;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.random.RandomGenerator;
 
 @Service
 @Transactional(readOnly = true)
@@ -60,8 +61,11 @@ public class GarminRunService {
 
         for (int i = 0; i < 10000; i++) {
             new Thread(() -> {
-                System.out.println("Inserting from the virtual thread" +Thread.currentThread().getName());
-                handleUserRequest(garminRunRequest);}).start();
+                        System.out.println("Inserting from the virtual thread"
+                                + Thread.currentThread().getName());
+                        handleUserRequest(garminRunRequest);
+                    })
+                    .start();
         }
         return handleUserRequest(garminRunRequest);
     }

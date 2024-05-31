@@ -1,8 +1,6 @@
 package me.sathish.trackgarmin.model.request;
 
-import jakarta.validation.constraints.Digits;
 import jakarta.validation.constraints.NotEmpty;
-import java.math.BigDecimal;
 
 public record GarminRunRequest(
         @NotEmpty(message = "ActivityID cannot be empty") String activityID,
