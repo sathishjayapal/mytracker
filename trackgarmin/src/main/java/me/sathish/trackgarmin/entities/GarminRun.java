@@ -1,15 +1,14 @@
 package me.sathish.trackgarmin.entities;
 
 import jakarta.persistence.*;
-import java.math.BigDecimal;
-import java.math.BigInteger;
-import java.time.LocalDateTime;
-import java.util.Objects;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.Hibernate;
+
+import java.math.BigInteger;
+import java.util.Objects;
 
 @Entity
 @Table(name = "garmin_runs")
@@ -31,6 +30,7 @@ public class GarminRun extends GarminMSBaseEntity {
     @Column(nullable = false)
     private String activityType;
 
+    @Column(nullable = false)
     private String activityDescription;
 
     @Column(nullable = false)

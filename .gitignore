@@ -71,3 +71,5 @@ target/
 /logs/trackstrava.log.2024-01-27.0.gz
 /LOG_FILE_IS_UNDEFINED.2024-01-21.0.gz
 /LOG_FILE_IS_UNDEFINED.2024-01-21.028129153380543.tmp
+
+logs/

@@ -8,7 +8,7 @@ CREATE TABLE IF NOT EXISTS garmin_runs
     activity_date        text                                          not null,
     activity_type        text                                          not null,
     activity_name        text                                          not null,
-    activity_description text                                          not null,
+    activity_description text,
     elapsed_time         text,
     distance             text                                          not null,
     max_heart_rate       text,

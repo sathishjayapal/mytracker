@@ -1,16 +1,15 @@
 package me.sathish.trackgarmin.mapper;
 
-import java.math.BigInteger;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.List;
-import java.util.Objects;
-import java.util.function.Consumer;
-
 import me.sathish.trackgarmin.entities.GarminRun;
 import me.sathish.trackgarmin.model.request.GarminRunRequest;
 import me.sathish.trackgarmin.model.response.GarminRunResponse;
 import org.springframework.stereotype.Service;
+
+import java.math.BigInteger;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
+import java.util.Objects;
+import java.util.function.Consumer;
 
 @Service
 public class GarminRunMapper {
@@ -29,11 +28,13 @@ public class GarminRunMapper {
         checkMapperData(garminRun, garminRunRequest);
         return garminRun;
     }
+
     private <T> void updateIfDifferent(T currentValue, T newValue, Consumer<T> setter) {
         if (!Objects.equals(currentValue, newValue)) {
             setter.accept(newValue);
         }
     }
+
     public void mapGarminRunWithRequest(GarminRun garminRuns, GarminRunRequest garminRunRequest) {
         updateIfDifferent(garminRuns.getActivityName(), garminRunRequest.activityName(), garminRuns::setActivityName);
         updateIfDifferent(garminRuns.getActivityType(), garminRunRequest.activityType(), garminRuns::setActivityType);
@@ -44,6 +45,7 @@ public class GarminRunMapper {
         updateIfDifferent(garminRuns.getActivityDate(), garminRunRequest.activityDate(), garminRuns::setActivityDate);
         checkMapperData(garminRuns, garminRunRequest);
     }
+
     private void checkMapperData(GarminRun garminRuns, GarminRunRequest garminRunRequest) {
         updateIfDifferent(garminRuns.getElapsedTime(), garminRunRequest.elapsedTime(), garminRuns::setElapsedTime);
         String distance = garminRunRequest.distance();
@@ -55,6 +57,7 @@ public class GarminRunMapper {
         updateIfDifferent(garminRuns.getMaxHeartRate(), garminRunRequest.maxHeartRate(), garminRuns::setMaxHeartRate);
         updateIfDifferent(garminRuns.getActivityName(), garminRunRequest.activityName(), garminRuns::setActivityName);
     }
+
     public GarminRunResponse toResponse(GarminRun garminRuns) {
         return new GarminRunResponse(
                 garminRuns.getId(),
@@ -72,6 +75,4 @@ public class GarminRunMapper {
     public List<GarminRunResponse> toResponseList(List<GarminRun> garminRunList) {
         return garminRunList.stream().map(this::toResponse).toList();
     }
-
-
 }
