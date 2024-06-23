@@ -42,7 +42,16 @@ public class GarminRunService {
             return new PagedResult<>(garminRunPage, garminRunMapperResponseList);
         });
     }
-
+    public PagedResult<GarminRunResponse> searchGarminRuns(String query, FindGarminRunsQuery findGarminRunsQuery) {
+        Pageable pageable = createPageable(findGarminRunsQuery);
+        return transactionTemplate.execute(status -> {
+            // do something
+            Page<GarminRun> garminRunPage = garminRunRepository.findGarminRunsByActivityNameContainingIgnoreCase(query,pageable);
+            List<GarminRunResponse> garminRunMapperResponseList =
+                    garminRunMapper.toResponseList(garminRunPage.getContent());
+            return new PagedResult<>(garminRunPage, garminRunMapperResponseList);
+        });
+    }
     private Pageable createPageable(FindGarminRunsQuery findGarminRunsQuery) {
         int pageNo = Math.max(findGarminRunsQuery.pageNo() - 1, 0);
         Sort sort = Sort.by(
