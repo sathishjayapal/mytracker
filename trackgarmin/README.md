@@ -5,6 +5,13 @@
 ```shell
 $ ./mvnw spotless:apply
 ```
+### run confiserver information in Docker
+
+```shell
+$ * docker run --rm -e username='someusername' -e pass='somepass' -p 8888:8888 travelhelper0h/sathishproject-config-server
+```
+
+
 
 ### Run tests
 
