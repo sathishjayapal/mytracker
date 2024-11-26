@@ -1,4 +1,4 @@
-package me.sathish.entities;
+package me.sathish.utils.garmindatainitializer.data;
 
 import fr.ybonnel.csvengine.annotation.CsvColumn;
 import fr.ybonnel.csvengine.annotation.CsvFile;
