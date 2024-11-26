@@ -1,4 +1,4 @@
-package me.sathish.trackgarmin.services;
+package me.sathish.utils.garmindatainitializer.service;
 
 import fr.ybonnel.csvengine.CsvEngine;
 import fr.ybonnel.csvengine.exception.CsvErrorsExceededException;
@@ -6,10 +6,11 @@ import java.io.InputStream;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
-import me.sathish.entities.RawActivities;
-import me.sathish.trackgarmin.entities.GarminRun;
-import me.sathish.trackgarmin.mapper.RawGarminRunMapper;
-import me.sathish.trackgarmin.repositories.GarminRunRepository;
+
+import me.sathish.utils.garmindatainitializer.data.GarminRun;
+import me.sathish.utils.garmindatainitializer.data.RawActivities;
+import me.sathish.utils.garmindatainitializer.data.RawGarminRunMapper;
+import me.sathish.utils.garmindatainitializer.repos.GarminDataRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -20,7 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class GarminFileParserService {
     private static final Logger logger = LoggerFactory.getLogger(GarminFileParserService.class);
     final CsvEngine engine = new CsvEngine(RawActivities.class);
-    final GarminRunRepository garminRunRepository;
+    final GarminDataRepository garminRunRepository;
     final RawGarminRunMapper rawActivitiesMapper;
 
     private static InputStream getCsvFile() {
