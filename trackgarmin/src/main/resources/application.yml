@@ -1,16 +1,5 @@
 # Golden copy for the client to communicate with Configserver ver #3
 # this property file setting will read app name "Accounts", profile "local" and use the retry logic
-eureka:
-    instance:
-        leaseRenewalIntervalInSeconds: 10
-        metadataMap:
-            instanceId: ${vcap.application.instance_id:${spring.application.name}:${spring.application.instance_id:${server.port}}}
-        hostname: localhost
-    client:
-        registryFetchIntervalSeconds: 5
-        serviceUrl:
-            defaultZone: http://sathish:pass@localhost:8070/eureka/
-        registerWithEureka: true
 spring:
     application:
         name: "trackgarmin"
@@ -20,7 +9,7 @@ spring:
           password: ${configserverPassword}
     config:
         fail-fast: true
-        import: "optional:configserver:http://localhost:8888?fail-fast=true&max-attempts=10&max-interval=1500&multiplier=1.2&initial-interval=1100"
+        import: "optional:configserver:http://localhost:8888/?fail-fast=true&max-attempts=10&max-interval=1500&multiplier=1.2&initial-interval=1000"
     threads:
         virtual:
             enabled: on

@@ -5,6 +5,11 @@
 ```shell
 $ ./mvnw spotless:apply
 ```
+### Azure for the run of things
+```shell
+$ cd /Volumes/MacProHD/intellijworkspaces/iAC-NikeRuns
+$ 
+
 ### run confiserver information in Docker
 
 ```shell
@@ -37,4 +42,4 @@ You can also run the application using Maven as follows:
 
 ### Useful Links
 * Swagger UI: http://localhost:8080/swagger-ui.html
-* Actuator Endpoint: http://localhost:8080/actuator
+* Actuator Endpoint: http://localhost:9042/actuator

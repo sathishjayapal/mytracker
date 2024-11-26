@@ -1,15 +1,14 @@
 package me.sathish.trackgarmin.mapper;
 
-import me.sathish.trackgarmin.entities.GarminRun;
-import me.sathish.trackgarmin.model.request.GarminRunRequest;
-import me.sathish.trackgarmin.model.response.GarminRunResponse;
-import org.springframework.stereotype.Service;
-
 import java.math.BigInteger;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.Consumer;
+import me.sathish.trackgarmin.entities.GarminRun;
+import me.sathish.trackgarmin.model.request.GarminRunRequest;
+import me.sathish.trackgarmin.model.response.GarminRunResponse;
+import org.springframework.stereotype.Service;
 
 @Service
 public class GarminRunMapper {
