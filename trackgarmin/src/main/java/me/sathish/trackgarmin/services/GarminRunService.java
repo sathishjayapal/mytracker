@@ -1,5 +1,8 @@
 package me.sathish.trackgarmin.services;
 
+import java.util.List;
+import java.util.Optional;
+import java.util.random.RandomGenerator;
 import lombok.RequiredArgsConstructor;
 import me.sathish.trackgarmin.entities.GarminRun;
 import me.sathish.trackgarmin.exception.GarminRunNotFoundException;
@@ -16,10 +19,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.support.TransactionTemplate;
-
-import java.util.List;
-import java.util.Optional;
-import java.util.random.RandomGenerator;
 
 @Service
 @Transactional(readOnly = true)
@@ -42,16 +41,19 @@ public class GarminRunService {
             return new PagedResult<>(garminRunPage, garminRunMapperResponseList);
         });
     }
+
     public PagedResult<GarminRunResponse> searchGarminRuns(String query, FindGarminRunsQuery findGarminRunsQuery) {
         Pageable pageable = createPageable(findGarminRunsQuery);
         return transactionTemplate.execute(status -> {
             // do something
-            Page<GarminRun> garminRunPage = garminRunRepository.findGarminRunsByActivityNameContainingIgnoreCase(query,pageable);
+            Page<GarminRun> garminRunPage =
+                    garminRunRepository.findGarminRunsByActivityNameContainingIgnoreCase(query, pageable);
             List<GarminRunResponse> garminRunMapperResponseList =
                     garminRunMapper.toResponseList(garminRunPage.getContent());
             return new PagedResult<>(garminRunPage, garminRunMapperResponseList);
         });
     }
+
     private Pageable createPageable(FindGarminRunsQuery findGarminRunsQuery) {
         int pageNo = Math.max(findGarminRunsQuery.pageNo() - 1, 0);
         Sort sort = Sort.by(
