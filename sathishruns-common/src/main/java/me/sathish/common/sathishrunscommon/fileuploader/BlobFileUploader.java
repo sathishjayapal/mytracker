@@ -1,36 +1,44 @@
 package me.sathish.common.sathishrunscommon.fileuploader;
 
+import com.azure.storage.blob.BlobClient;
 import com.azure.storage.blob.BlobContainerClient;
 import com.azure.storage.blob.BlobServiceClient;
 import com.azure.storage.blob.BlobServiceClientBuilder;
 import com.azure.storage.blob.models.BlobContainerItem;
+import com.azure.storage.blob.models.BlobItem;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.List;
+import java.util.Optional;
+
+import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.time.LocalDateTime;
-import java.util.List;
-
-
 @Component
+@Slf4j
 public class BlobFileUploader implements CommandLineRunner {
     // Path to the file to be uploaded
-    private static final String FILE_PATH = "/Volumes/MacProHD/HDD_Downloads/Activities-1.csv";
-    // Name of the blob container
-    String blobContainerName = "devsathisprj1storaccnt";
-    // Connection string for the Azure Blob Storage account
-    String connectStr = "geturownconnectionstring";
+    @Value("${file.path}")
+    private String filePath;
+
+    @Value("${azure.storage.connection-string}")
+    private String connectStr;
     // List of blob containers in the storage account
     private List<BlobContainerItem> cotainersList;
     // Client for interacting with the Azure Blob Storage service
     private BlobServiceClient blobServiceClient;
+
     // Constructor to initialize the BlobServiceClient and list of containers
-    public BlobFileUploader() {
-        blobServiceClient = new BlobServiceClientBuilder()
-                .connectionString(connectStr)
-                .buildClient();
+
+    public BlobFileUploader(@Value("${azure.storage.connection-string}") String connectStr) {
+        this.connectStr = connectStr;
+
+        blobServiceClient =
+                new BlobServiceClientBuilder().connectionString(connectStr).buildClient();
         cotainersList = blobServiceClient.listBlobContainers().stream().toList();
     }
 
@@ -51,27 +59,40 @@ public class BlobFileUploader implements CommandLineRunner {
         for (BlobContainerItem blobContainerItem : cotainersList) {
             BlobContainerClient containerClient = blobServiceClient.getBlobContainerClient(blobContainerItem.getName());
             containerClient.listBlobs().forEach(blobItem -> {
-                System.out.println("This is the containerClient1 name: " + blobItem.getName());
+                log.error("This is the blob name: {}", blobItem.getName());
+                BlobClient blobClient = containerClient.getBlobClient(blobItem.getName());
+                log.error("Blob URL: " + blobClient.getBlobUrl());
             });
-            System.out.println("This is the blob name: " + blobContainerItem.getName());
+            log.error("This is the container name: " + blobContainerItem.getName());
         }
     }
+
     /**
      * Uploads the activity file to the first container in the list.
-     *
-     * @throws IOException if an I/O error occurs
+     * If the file already exists in the container, it will not be uploaded again.
+     * If the file does not exist at the specified path, an error message will be printed.
      */
-    void uploadActivity() throws IOException {
-        if (fileExists(FILE_PATH)) {
+    void uploadActivity() {
+        if (fileExists(filePath)) {
             cotainersList.stream().findFirst().ifPresent(blobContainerItem -> {
-                BlobContainerClient containerClient = blobServiceClient.getBlobContainerClient(blobContainerItem.getName());
-                containerClient.getBlobClient(blobContainerName + LocalDateTime.now()).uploadFromFile(FILE_PATH);
+                BlobContainerClient containerClient =
+                        blobServiceClient.getBlobContainerClient(blobContainerItem.getName());
+                Optional<BlobItem> result = containerClient.listBlobs().stream()
+                        .filter(s -> s.getName()
+                                .equalsIgnoreCase(
+                                        Paths.get(filePath).getFileName().toString()))
+                        .findFirst();
+                result.ifPresentOrElse(
+                        blobItem -> log.error("Blob already uploaded", new Throwable("Blob already in the storage container")), () -> containerClient
+                                .getBlobClient(Paths.get(filePath).getFileName().toString())
+                                .uploadFromFile(filePath, false));
             });
-            System.out.println("File uploaded");
+
         } else {
             System.out.println("File does not exist");
         }
     }
+
     /**
      * Runs the application, listing blobs and uploading the activity file.
      *

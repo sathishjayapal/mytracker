@@ -1,3 +1,8 @@
+azure:
+    storage:
+        connection-string: "DefaultEndpointsProtocol=https;AccountName=testsathisprj1storaccnt;AccountKey=Mf4dZfUUoRv2qyrladB4PH60bse+pjianJI2QnIngYQvJ0fB0XbCtlbtWUjW+x6IQRP5ZMM7RE81+ASt6F4O6g==;EndpointSuffix=core.windows.net"
+file:
+    path: "/Volumes/MacProHD/HDD_Downloads/Activities-1.csv"
 spring:
     application:
         name: sathishruns-common
