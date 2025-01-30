@@ -25,4 +25,12 @@ CREATE TABLE IF NOT EXISTS garmin_runs
     updated_at           timestamp        DEFAULT NULL,
     updated_by           varchar(40) DEFAULT NULL,
     primary key (id)
+);
+CREATE TABLE IF NOT EXISTS file_name_tracker
+(
+    id bigint DEFAULT nextval('garmin_runs_seq') not null,
+    filename text not null,
+    created_at timestamp NOT NULL,
+    created_by varchar(40) NOT NULL,
+    primary key (id)
 )
