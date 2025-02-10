@@ -1,12 +1,11 @@
 package me.sathish.trackgarmin.audit;
 
+import java.util.Base64;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
-
-import java.util.Base64;
 
 @Component
 public class ConfigServerClient {
@@ -21,10 +20,13 @@ public class ConfigServerClient {
 
     public String getConfiguration(String appName, String profile) {
         logger.info("Fetching configuration for app: " + appName + " and profile: " + profile);
-        return restClient.get().uri("/auth")
-                .header("Authorization", "Basic "
-                        + Base64.getEncoder().encodeToString(("sathish" + ":" + "pass")
-                        .getBytes())).retrieve().body(new ParameterizedTypeReference<>() {
-        });
+        return restClient
+                .get()
+                .uri("/auth")
+                .header(
+                        "Authorization",
+                        "Basic " + Base64.getEncoder().encodeToString(("sathish" + ":" + "pass").getBytes()))
+                .retrieve()
+                .body(new ParameterizedTypeReference<>() {});
     }
 }

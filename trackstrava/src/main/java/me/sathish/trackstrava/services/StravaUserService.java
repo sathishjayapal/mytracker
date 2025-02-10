@@ -33,19 +33,17 @@ public class StravaUserService {
 
         Page<StravaUser> stravaUsersPage = stravaUserRepository.findAll(pageable);
 
-        List<StravaUserResponse> stravaUserResponseList =
-                stravaUserMapper.toResponseList(stravaUsersPage.getContent());
+        List<StravaUserResponse> stravaUserResponseList = stravaUserMapper.toResponseList(stravaUsersPage.getContent());
 
         return new PagedResult<>(stravaUsersPage);
     }
 
     private Pageable createPageable(FindStravaUsersQuery findStravaUsersQuery) {
         int pageNo = Math.max(findStravaUsersQuery.pageNo() - 1, 0);
-        Sort sort =
-                Sort.by(
-                        findStravaUsersQuery.sortDir().equalsIgnoreCase(Sort.Direction.ASC.name())
-                                ? Sort.Order.asc(findStravaUsersQuery.sortBy())
-                                : Sort.Order.desc(findStravaUsersQuery.sortBy()));
+        Sort sort = Sort.by(
+                findStravaUsersQuery.sortDir().equalsIgnoreCase(Sort.Direction.ASC.name())
+                        ? Sort.Order.asc(findStravaUsersQuery.sortBy())
+                        : Sort.Order.desc(findStravaUsersQuery.sortBy()));
         return PageRequest.of(pageNo, findStravaUsersQuery.pageSize(), sort);
     }
 
@@ -63,9 +61,7 @@ public class StravaUserService {
     @Transactional
     public StravaUserResponse updateStravaUser(Long id, StravaUserRequest stravaUserRequest) {
         StravaUser stravaUser =
-                stravaUserRepository
-                        .findById(id)
-                        .orElseThrow(() -> new StravaUserNotFoundException(id));
+                stravaUserRepository.findById(id).orElseThrow(() -> new StravaUserNotFoundException(id));
 
         // Update the stravaUser object with data from stravaUserRequest
         stravaUserMapper.mapStravaUserWithRequest(stravaUser, stravaUserRequest);

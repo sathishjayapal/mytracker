@@ -40,11 +40,10 @@ public class StravaUserController {
     public ResponseEntity<StravaUserResponse> createStravaUser(
             @RequestBody @Validated StravaUserRequest stravaUserRequest) {
         StravaUserResponse response = stravaUserService.saveStravaUser(stravaUserRequest);
-        URI location =
-                ServletUriComponentsBuilder.fromCurrentRequest()
-                        .path("/api/stravauser/{id}")
-                        .buildAndExpand(response.id())
-                        .toUri();
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest()
+                .path("/api/stravauser/{id}")
+                .buildAndExpand(response.id())
+                .toUri();
         return ResponseEntity.created(location).body(response);
     }
 
@@ -58,11 +57,10 @@ public class StravaUserController {
     public ResponseEntity<StravaUserResponse> deleteStravaUser(@PathVariable Long id) {
         return stravaUserService
                 .findStravaUserById(id)
-                .map(
-                        stravaUser -> {
-                            stravaUserService.deleteStravaUserById(id);
-                            return ResponseEntity.ok(stravaUser);
-                        })
+                .map(stravaUser -> {
+                    stravaUserService.deleteStravaUserById(id);
+                    return ResponseEntity.ok(stravaUser);
+                })
                 .orElseThrow(() -> new StravaUserNotFoundException(id));
     }
 }

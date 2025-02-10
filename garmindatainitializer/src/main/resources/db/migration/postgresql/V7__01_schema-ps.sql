@@ -1,9 +1,12 @@
-Drop table if exists postgres.garmin_runs;
-Drop sequence if exists postgres.garmin_runs_seq;
-create sequence postgres.garmin_runs_seq start with 1 increment by 50;
-CREATE TABLE IF NOT EXISTS postgres.garmin_runs
+Drop sequence if exists garminrunsschema.garmin_runs_seq CASCADE;
+Drop table if exists garminrunsschema.garmin_runs CASCADE;
+Drop sequence if exists garminrunsschema.garmin_runs_seq CASCADE;
+drop schema if exists garminrunsschema CASCADE;
+CREATE SCHEMA garminrunsschema;
+create sequence garminrunsschema.garmin_runs_seq start with 1 increment by 50;
+CREATE TABLE IF NOT EXISTS garminrunsschema.garmin_runs
 (
-    id                   bigint      DEFAULT nextval('postgres.garmin_runs_seq') not null,
+    id                   bigint      DEFAULT nextval('garminrunsschema.garmin_runs_seq') not null,
     activityID           numeric                                        not null,
     activity_date        text                                          not null,
     activity_type        text                                          not null,
@@ -18,4 +21,20 @@ CREATE TABLE IF NOT EXISTS postgres.garmin_runs
     updated_at           timestamp        DEFAULT NULL,
     updated_by           varchar(20) DEFAULT NULL,
     primary key (id)
+);
+CREATE TABLE  IF NOT EXISTS garminrunsschema.shedlock(
+  name text NOT NULL,
+  lock_until timestamp NOT NULL,
+  locked_at timestamp NOT NULL,
+  locked_by text NOT NULL,
+  PRIMARY KEY (name)
+);
+CREATE TABLE IF NOT EXISTS garminrunsschema.file_name_tracker
+(
+    id bigint DEFAULT nextval('garminrunsschema.garmin_runs_seq') not null,
+    filename text not null,
+    created_at timestamp NOT NULL,
+    created_by varchar(40) NOT NULL,
+    primary key (id)
 )
+

@@ -17,8 +17,7 @@ public class StravaUserMapper {
         return stravaUser;
     }
 
-    public void mapStravaUserWithRequest(
-            StravaUser stravaUser, StravaUserRequest stravaUserRequest) {
+    public void mapStravaUserWithRequest(StravaUser stravaUser, StravaUserRequest stravaUserRequest) {
         stravaUser.setPhoneNumber(stravaUserRequest.phoneNumber());
         stravaUser.setEmail(stravaUserRequest.email());
         stravaUser.setName(stravaUserRequest.name());
@@ -26,10 +25,7 @@ public class StravaUserMapper {
 
     public StravaUserResponse toResponse(StravaUser stravaUser) {
         return new StravaUserResponse(
-                stravaUser.getCustomerId(),
-                stravaUser.getName(),
-                stravaUser.getEmail(),
-                stravaUser.getPhoneNumber());
+                stravaUser.getCustomerId(), stravaUser.getName(), stravaUser.getEmail(), stravaUser.getPhoneNumber());
     }
 
     public List<StravaUserResponse> toResponseList(List<StravaUser> stravaUserList) {

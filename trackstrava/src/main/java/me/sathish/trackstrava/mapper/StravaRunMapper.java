@@ -16,8 +16,7 @@ public class StravaRunMapper {
         StravaRun stravaRun = new StravaRun();
         stravaRun.setRun_name(stravaRunRequest.run_name());
 
-        stravaRun.setRun_date(
-                LocalDateTime.from(dateTimeFormatter.parse(stravaRunRequest.run_date())));
+        stravaRun.setRun_date(LocalDateTime.from(dateTimeFormatter.parse(stravaRunRequest.run_date())));
         stravaRun.setMiles(stravaRunRequest.miles());
         stravaRun.setStart_location(stravaRunRequest.start_location());
         return stravaRun;
@@ -25,8 +24,7 @@ public class StravaRunMapper {
 
     public void mapStravaRunWithRequest(StravaRun stravaRun, StravaRunRequest stravaRunRequest) {
         stravaRun.setRun_name(stravaRunRequest.run_name());
-        stravaRun.setRun_date(
-                LocalDateTime.from(dateTimeFormatter.parse(stravaRunRequest.run_date())));
+        stravaRun.setRun_date(LocalDateTime.from(dateTimeFormatter.parse(stravaRunRequest.run_date())));
         stravaRun.setMiles(stravaRunRequest.miles());
         stravaRun.setStart_location(stravaRunRequest.start_location());
     }

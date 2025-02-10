@@ -1,11 +1,13 @@
-azure:
-    storage:
-        connection-string: "DefaultEndpointsProtocol=https;AccountName=testsathisprj1storaccnt;AccountKey=Mf4dZfUUoRv2qyrladB4PH60bse+pjianJI2QnIngYQvJ0fB0XbCtlbtWUjW+x6IQRP5ZMM7RE81+ASt6F4O6g==;EndpointSuffix=core.windows.net"
-file:
-    path: "/Volumes/MacProHD/HDD_Downloads/Activities-1.csv"
 spring:
     application:
         name: sathishruns-common
+    cloud:
+        config:
+            username: ${configserverUsername}
+            password: ${configserverPassword}
+    config:
+        fail-fast: true
+        import: "optional:configserver:http://localhost:8888/?fail-fast=true&max-attempts=10&max-interval=1500&multiplier=1.2&initial-interval=1000"
 sathishruns-retry-config:
     initial-interval-ms: 1000
     max-interval-ms: 10000

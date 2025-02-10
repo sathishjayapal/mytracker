@@ -1,0 +1,89 @@
+spring:
+    application:
+        name: sathishaccount-query
+    cloud:
+        function:
+            definition: readSathishRunDataFunction;postSathishRunDataFunction
+        stream:
+            http:
+                GET: readSathishRunDataFunction
+                POST: postSathishRunDataFunction
+        rabbit:
+            default:
+                requiredGroups: true
+                dlqQuorum:
+                    enabled: true
+                quorum.enabled: true
+                autoBindDlq: true
+                prefetch: 10000
+        bindings:
+            readSathishRunDataFunction-in-0:
+                destination: readRunData
+                group: ${spring.application.name}
+            consumer:
+                readSathishRunDataFunction-in-0:
+                    concurrency: 1
+            postSathishRunDataFunction-in-0:
+                destination: postRunData
+                group: ${spring.application.name}
+    threads:
+        virtual:
+            enabled: true
+    datasource:
+        url: jdbc:postgresql://localhost:5432/skminfotech
+        driverClassName: org.postgresql.Driver
+        username: postgres
+        password: pas$word1234
+
+        flyway:
+            locations: classpath:/db/migration/{vendor}
+            validate-on-migrate: true
+    flyway:
+        baseline-on-migrate: true
+        enabled: true
+        clean-on-validation-error: true
+        clean-disabled: false
+    rabbitmq:
+        username: user
+        password: password
+        host: localhost
+        port: 5672
+        default:
+            group: ${spring.application.name}
+            requiredGroups: true
+            dlqQuorum:
+                enabled: true
+            quorum.enabled: true
+    bindings:
+        readSathishRunDataFunction-in-0:
+            consumer:
+                autoBindDlq: true
+                quorum.enabled: true
+                dlqQuorum:
+                    enabled: true
+                prefetch: 10000
+    jpa:
+        database-platform: org.hibernate.dialect.PostgreSQLDialect
+        hibernate:
+            ddl-auto: update
+        show-sql: true
+        properties:
+            hibernate:
+                format_sql: true
+                default_schema: test_db
+                jdbc:
+                    time_zone: UTC
+    sql:
+        init:
+            mode: always
+decorator:
+    datasource:
+        datasource-proxy:
+            json-format: true
+            format-sql: true
+
+        flexy-pool:
+            threshold:
+                connection:
+                    acquire: -1
+                    lease: 0

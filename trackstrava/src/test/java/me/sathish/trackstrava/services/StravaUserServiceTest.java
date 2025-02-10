@@ -10,10 +10,14 @@ import org.mockito.junit.jupiter.MockitoExtension;
 @ExtendWith(MockitoExtension.class)
 class StravaUserServiceTest {
 
-    @Mock private StravaUserRepository stravaUserRepository;
-    @Mock private StravaUserMapper stravaUserMapper;
+    @Mock
+    private StravaUserRepository stravaUserRepository;
 
-    @InjectMocks private StravaUserService stravaUserService;
+    @Mock
+    private StravaUserMapper stravaUserMapper;
+
+    @InjectMocks
+    private StravaUserService stravaUserService;
 
     //    @Test
     //    void findStravaUserById() {
