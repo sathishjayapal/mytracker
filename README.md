@@ -11,3 +11,9 @@ For the Tracker application
 *  kafka-topics --create --bootstrap-server localhost:9092 --replication-factor 1 --partitions 1 --topic first-topic - create topic
 * kafka-topics --describe --bootstrap-server localhost:9092 --topic first-topic - describe topics
 
+**Docker issues in Intel Mac**
+
+If you are facing issues with Docker Desktop on Intel Mac, you can try the following solutions:
+* Open activity monitor, search for "docker", and Force Quit docker for desktop and all other processes.
+* Delete the folder ~/Library/Group Containers/group.com.docker.
+* Restart the docker process.

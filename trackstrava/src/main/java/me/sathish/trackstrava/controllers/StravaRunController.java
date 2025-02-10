@@ -30,8 +30,8 @@ public class StravaRunController {
 
     @GetMapping
     public List<StravaRunResponse> getAllStravaRuns() {
-        System.out.println(
-                "STRAVA-MS The name of the thread is find all" + Thread.currentThread().getName());
+        System.out.println("STRAVA-MS The name of the thread is find all"
+                + Thread.currentThread().getName());
         return stravaRunService.findAllStravaRuns();
     }
 
@@ -47,11 +47,10 @@ public class StravaRunController {
     public ResponseEntity<StravaRunResponse> createStravaRun(
             @RequestBody @Validated StravaRunRequest stravaRunRequest) {
         StravaRunResponse response = stravaRunService.saveStravaRun(stravaRunRequest);
-        URI location =
-                ServletUriComponentsBuilder.fromCurrentRequest()
-                        .path("/api/stravarun/{id}")
-                        .buildAndExpand(response.run_number())
-                        .toUri();
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest()
+                .path("/api/stravarun/{id}")
+                .buildAndExpand(response.run_number())
+                .toUri();
         System.out.println(
                 "Strava-MS The name of the thread is " + Thread.currentThread().getName());
         return ResponseEntity.created(location).body(response);
@@ -67,11 +66,10 @@ public class StravaRunController {
     public ResponseEntity<StravaRunResponse> deleteStravaRun(@PathVariable Long id) {
         return stravaRunService
                 .findStravaRunById(id)
-                .map(
-                        stravaRun -> {
-                            stravaRunService.deleteStravaRunById(id);
-                            return ResponseEntity.ok(stravaRun);
-                        })
+                .map(stravaRun -> {
+                    stravaRunService.deleteStravaRunById(id);
+                    return ResponseEntity.ok(stravaRun);
+                })
                 .orElseThrow(() -> new StravaRunNotFoundException(id));
     }
 }

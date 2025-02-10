@@ -6,10 +6,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @ResponseStatus(value = HttpStatus.BAD_REQUEST)
 public class StravaUserNotFoundException extends ResourceNotFoundException {
     public StravaUserNotFoundException(String resourceName, String fieldName, String fieldValue) {
-        super(
-                String.format(
-                        "%s not found with the given input data %s : '%s'",
-                        resourceName, fieldName, fieldValue));
+        super(String.format("%s not found with the given input data %s : '%s'", resourceName, fieldName, fieldValue));
     }
 
     public StravaUserNotFoundException(Long fieldValue) {

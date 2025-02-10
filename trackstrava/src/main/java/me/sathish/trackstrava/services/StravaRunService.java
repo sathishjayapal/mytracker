@@ -34,36 +34,31 @@ public class StravaRunService {
         // create Pageable instance
         List<StravaRun> stravaRunsPage = stravaRunRepository.findAllByRunNumber();
 
-        List<StravaRunResponse> stravaUserResponseList =
-                stravaRunMapper.toResponseList(stravaRunsPage);
+        List<StravaRunResponse> stravaUserResponseList = stravaRunMapper.toResponseList(stravaRunsPage);
 
         return stravaUserResponseList;
     }
 
     private Pageable createPageable(FindStravaRunsQuery findStravaRunsQuery) {
         int pageNo = Math.max(findStravaRunsQuery.pageNo() - 1, 0);
-        Sort sort =
-                Sort.by(
-                        findStravaRunsQuery.sortDir().equalsIgnoreCase(Sort.Direction.ASC.name())
-                                ? Sort.Order.asc(findStravaRunsQuery.sortBy())
-                                : Sort.Order.desc(findStravaRunsQuery.sortBy()));
+        Sort sort = Sort.by(
+                findStravaRunsQuery.sortDir().equalsIgnoreCase(Sort.Direction.ASC.name())
+                        ? Sort.Order.asc(findStravaRunsQuery.sortBy())
+                        : Sort.Order.desc(findStravaRunsQuery.sortBy()));
         return PageRequest.of(pageNo, findStravaRunsQuery.pageSize(), sort);
     }
 
     @Transactional
     public StravaRunResponse saveStravaRun(StravaRunRequest stravaRunRequest) {
         for (int i = 0; i < 1000; i++) {
-            new Thread(
-                            () -> {
-                                System.out.println(
-                                        "Inserting from the system thread \t"
-                                                + Thread.currentThread().getName());
-                                StravaRun stravaRun = stravaRunMapper.toEntity(stravaRunRequest);
-                                stravaRun.setRunNumber(RandomGenerator.getDefault().nextLong());
-                                stravaRun.setCustomerId(
-                                        RandomGenerator.getDefault().nextLong(0L, Long.MAX_VALUE));
-                                StravaRun savedStravaRun = stravaRunRepository.save(stravaRun);
-                            })
+            new Thread(() -> {
+                        System.out.println("Inserting from the system thread \t"
+                                + Thread.currentThread().getName());
+                        StravaRun stravaRun = stravaRunMapper.toEntity(stravaRunRequest);
+                        stravaRun.setRunNumber(RandomGenerator.getDefault().nextLong());
+                        stravaRun.setCustomerId(RandomGenerator.getDefault().nextLong(0L, Long.MAX_VALUE));
+                        StravaRun savedStravaRun = stravaRunRepository.save(stravaRun);
+                    })
                     .start();
         }
         StravaRun stravaRun = stravaRunMapper.toEntity(stravaRunRequest);
@@ -75,10 +70,7 @@ public class StravaRunService {
 
     @Transactional
     public StravaRunResponse updateStravaRun(Long id, StravaRunRequest stravaRunRequest) {
-        StravaRun stravaRun =
-                stravaRunRepository
-                        .findById(id)
-                        .orElseThrow(() -> new StravaRunNotFoundException(id));
+        StravaRun stravaRun = stravaRunRepository.findById(id).orElseThrow(() -> new StravaRunNotFoundException(id));
 
         // Update the stravaRun object with data from stravaRunRequest
         stravaRunMapper.mapStravaRunWithRequest(stravaRun, stravaRunRequest);
