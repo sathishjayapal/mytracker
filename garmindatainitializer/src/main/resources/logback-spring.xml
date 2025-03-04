@@ -5,7 +5,7 @@
     <springProperty scope="context" name="appName" source="spring.application.name"/>
 
     <springProfile name="default">
-        <root level="DEBUG">
+        <root level="INFO">
             <appender-ref ref="CONSOLE" />
         </root>
     </springProfile>
@@ -19,7 +19,7 @@
         </root>
     </springProfile>
 
-    <logger name="me.sathish.utils.garmindatainitializer" level="DEBUG"/>
-    <logger name="org.springframework" level="DEBUG"/>
+    <logger name="me.sathish.utils.garmindatainitializer" level="INFO"/>
+    <logger name="org.springframework" level="INFO"/>
 
 </configuration>

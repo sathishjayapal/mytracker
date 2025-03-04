@@ -29,7 +29,6 @@ public class GarminRun extends GarminMSBaseEntity {
     @Column(nullable = false)
     private String activityType;
 
-    @Column(nullable = false)
     private String activityDescription;
 
     @Column(nullable = false)

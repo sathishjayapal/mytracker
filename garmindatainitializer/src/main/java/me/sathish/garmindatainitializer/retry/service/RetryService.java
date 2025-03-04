@@ -1,7 +1,9 @@
 package me.sathish.garmindatainitializer.retry.service;
 
 import me.sathish.garmindatainitializer.retry.data.RetryCounter;
+import me.sathish.garmindatainitializer.service.GarminEventService;
 import org.springframework.boot.SpringApplication;
+import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 
@@ -9,9 +11,10 @@ import org.springframework.stereotype.Service;
  * Service class for handling retry logic.
  */
 @Service
-public class RetryService {
+public class RetryService implements GarminEventService {
     private final RetryCounter retryCounter;
     private final ApplicationContext applicationContext;
+    private final DiscoveryClient discoveryClient;
 
     /**
      * Constructor for RetryService.
@@ -19,9 +22,11 @@ public class RetryService {
      * @param retryCounter the counter for tracking retry attempts
      * @param applicationContext the application context for shutting down the application
      */
-    public RetryService(RetryCounter retryCounter, ApplicationContext applicationContext) {
+    public RetryService(
+            RetryCounter retryCounter, ApplicationContext applicationContext, DiscoveryClient discoveryClient) {
         this.retryCounter = retryCounter;
         this.applicationContext = applicationContext;
+        this.discoveryClient = discoveryClient;
     }
 
     /**
@@ -30,12 +35,12 @@ public class RetryService {
      */
     public void performTask() {
         int currentRetryCount = retryCounter.incrementAndGet();
-        System.out.println("Retry attempt: " + currentRetryCount);
         if (currentRetryCount >= 3) {
-            System.out.println("Max retries reached. Shutting down application...");
+            recordEvent("ERROR- Max retries reached. Shutting down application...", discoveryClient);
+            // Send Email logic here.
             shutdownApplication();
         } else {
-            System.out.println("Task succeeded!");
+            recordEvent("Task succeeded!...", discoveryClient);
         }
     }
 
@@ -44,5 +49,9 @@ public class RetryService {
      */
     private void shutdownApplication() {
         System.exit(SpringApplication.exit(applicationContext, () -> 0));
+    }
+
+    public void performEmailTask() {
+        // Send Email logic here.
     }
 }
