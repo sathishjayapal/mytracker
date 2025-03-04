@@ -1,29 +1,39 @@
 package me.sathish.common.sathishrunscommon.fileuploader;
 
-import com.azure.storage.blob.*;
+import com.azure.storage.blob.BlobContainerClient;
+import com.azure.storage.blob.BlobServiceClient;
+import com.azure.storage.blob.BlobServiceClientBuilder;
 import com.azure.storage.blob.models.BlobContainerItem;
-import com.azure.storage.blob.models.BlobItem;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.env.Environment;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Component;
+
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Component;
 
 @Component
 @Slf4j
 public class BlobFileUploader {
-
+    private List<BlobContainerItem> containersList = List.of();
+    private final BlobServiceClient blobServiceClient;
     @Value("${file.path}")
     private String filePath;
-
-    private final List<BlobContainerItem> containersList;
-    private final BlobServiceClient blobServiceClient;
-
-    public BlobFileUploader(@Value("${azure.storage.connection-string}") String connectStr) {
+    private final Environment environment;
+    public BlobFileUploader(Environment environment) {
+        this.environment = environment;
+        String connectStr = environment.getProperty("azure.storage.connection-string");
         blobServiceClient = new BlobServiceClientBuilder().connectionString(connectStr).buildClient();
-        containersList = blobServiceClient.listBlobContainers().stream().toList();
+        try {
+            containersList = blobServiceClient.listBlobContainers().stream().toList();
+        } catch (Exception e) {
+            log.error("Error in BlobFileUploader constructor");
+        }
+
     }
 
     public static boolean fileExists(String filePath) {
@@ -31,6 +41,10 @@ public class BlobFileUploader {
     }
 
     void listBlobs() {
+        if (containersList .isEmpty()) {
+            log.error("No blobs to list. No containers found");
+            return;
+        }
         for (BlobContainerItem container : containersList) {
             BlobContainerClient containerClient = blobServiceClient.getBlobContainerClient(container.getName());
             containerClient.listBlobs().forEach(blob -> {
@@ -42,6 +56,10 @@ public class BlobFileUploader {
     }
 
     void uploadActivity() {
+        if (containersList .isEmpty()) {
+            log.error("No uploads as - No containers found");
+            return;
+        }
         if (fileExists(filePath)) {
             containersList.stream().findFirst().ifPresent(container -> {
                 BlobContainerClient containerClient = blobServiceClient.getBlobContainerClient(container.getName());
