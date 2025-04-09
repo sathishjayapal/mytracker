@@ -1,9 +1,8 @@
 package me.sathish.eventservice.data;
 
+import java.util.Optional;
 import org.springframework.data.domain.AuditorAware;
 import org.springframework.stereotype.Component;
-
-import java.util.Optional;
 
 @Component("auditAwareImpl")
 public class EventDataAuditorImpl implements AuditorAware<String> {

@@ -29,6 +29,7 @@ public class DomainEventController {
             return ResponseEntity.notFound().build();
         }
     }
+
     @GetMapping("/all")
     public ResponseEntity<?> getDomainEvents() {
         return ResponseEntity.ok(domainEventService.getDomainEvents());

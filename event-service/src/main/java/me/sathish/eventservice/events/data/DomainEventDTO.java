@@ -1,9 +1,8 @@
 package me.sathish.eventservice.events.data;
 
+import java.time.LocalDateTime;
 import lombok.Data;
 import org.springframework.stereotype.Component;
-
-import java.time.LocalDateTime;
 
 @Data
 @Component

@@ -1,6 +1,5 @@
 package me.sathish.eventservice.events.data;
 
-
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
@@ -23,20 +22,16 @@ public class DomainEvent extends BaseEvents {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @NotNull @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "domain_name", nullable = false, referencedColumnName = "domain_name")
     private Domain domainName;
 
-    @NotNull
-    @Column(name = "event_id", nullable = false, length = Integer.MAX_VALUE)
+    @NotNull @Column(name = "event_id", nullable = false, length = Integer.MAX_VALUE)
     private String eventId;
 
-    @NotNull
-    @Column(name = "event_type", nullable = false, length = Integer.MAX_VALUE)
+    @NotNull @Column(name = "event_type", nullable = false, length = Integer.MAX_VALUE)
     private String eventType;
 
-    @NotNull
-    @Column(name = "payload", nullable = false, length = Integer.MAX_VALUE)
+    @NotNull @Column(name = "payload", nullable = false, length = Integer.MAX_VALUE)
     private String payload;
 }
