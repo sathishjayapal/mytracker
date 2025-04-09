@@ -1,6 +1,8 @@
 package me.sathish.eventservice.events.service;
 
-
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 import me.sathish.eventservice.domain.data.Domain;
 import me.sathish.eventservice.domain.repo.DomainRepo;
 import me.sathish.eventservice.events.data.DomainEvent;
@@ -10,10 +12,6 @@ import me.sathish.eventservice.events.repo.DomainEventRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @Transactional(readOnly = true)
@@ -46,8 +44,13 @@ public class DomainEventService {
         Optional<DomainEvent> domainEvent = domainEventRepo.findById(id);
         return domainEvent.map(domainEventMapper::toDto).orElse(null);
     }
+
     public List<DomainEventDTO> getDomainEvents() {
-        Domain domain = domainRepo.findByDomainName("GARMIN").orElseThrow(() -> new IllegalArgumentException("Domain not found: GARMIN"));
-        return domainEventRepo.getDomainEventsByDomainName(domain).stream().map(domainEventMapper::toDto).collect(Collectors.toList());
+        Domain domain = domainRepo
+                .findByDomainName("GARMIN")
+                .orElseThrow(() -> new IllegalArgumentException("Domain not found: GARMIN"));
+        return domainEventRepo.getDomainEventsByDomainName(domain).stream()
+                .map(domainEventMapper::toDto)
+                .collect(Collectors.toList());
     }
 }

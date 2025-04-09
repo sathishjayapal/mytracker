@@ -1,6 +1,5 @@
 package me.sathish.eventservice.events.data;
 
-
 import me.sathish.eventservice.domain.data.Domain;
 import org.springframework.stereotype.Component;
 

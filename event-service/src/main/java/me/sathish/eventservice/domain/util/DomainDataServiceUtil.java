@@ -1,12 +1,10 @@
 package me.sathish.eventservice.domain.util;
 
-
+import java.util.Arrays;
+import java.util.List;
 import me.sathish.eventservice.domain.data.Domain;
 import me.sathish.eventservice.domain.repo.DomainRepo;
 import org.springframework.stereotype.Service;
-
-import java.util.Arrays;
-import java.util.List;
 
 @Service
 public class DomainDataServiceUtil {

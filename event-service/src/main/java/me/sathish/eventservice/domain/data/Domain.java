@@ -27,12 +27,10 @@ public class Domain extends BaseEvents {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @NotNull
-    @Column(name = "domain_name", nullable = false, length = Integer.MAX_VALUE)
+    @NotNull @Column(name = "domain_name", nullable = false, length = Integer.MAX_VALUE)
     private String domainName;
 
-    @NotNull
-    @Column(name = "status", nullable = false, length = Integer.MAX_VALUE)
+    @NotNull @Column(name = "status", nullable = false, length = Integer.MAX_VALUE)
     private String status;
 
     @Column(name = "comments", length = Integer.MAX_VALUE)
