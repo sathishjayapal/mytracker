@@ -23,9 +23,9 @@ CREATE TABLE IF NOT EXISTS garminrunsschema.garmin_runs
     max_heart_rate       text,
     calories             text                                          ,
     created_at           timestamp                                          NOT NULL,
-    created_by           varchar(20)                                   NOT NULL,
+    created_by text                                   NOT NULL,
     updated_at           timestamp        DEFAULT NULL,
-    updated_by           varchar(20) DEFAULT NULL,
+    updated_by           text DEFAULT NULL,
     primary key (id)
 );
 CREATE TABLE  IF NOT EXISTS garminrunsschema.shedlock(
