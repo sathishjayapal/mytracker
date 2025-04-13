@@ -16,16 +16,16 @@ CREATE TABLE IF NOT EXISTS garminrunsschema.garmin_runs
     activityID           numeric                                        not null,
     activity_date        text                                          not null,
     activity_type        text                                          not null,
-    activity_name        text                                          not null,
+    activity_name        text                                             not null,
     activity_description text,
     elapsed_time         text,
     distance             text                                          not null,
     max_heart_rate       text,
     calories             text                                          ,
     created_at           timestamp                                          NOT NULL,
-    created_by           varchar(20)                                   NOT NULL,
+    created_by           varchar(40)                                   NOT NULL,
     updated_at           timestamp        DEFAULT NULL,
-    updated_by           varchar(20) DEFAULT NULL,
+    updated_by           varchar(40) DEFAULT NULL,
     primary key (id)
 );
 CREATE TABLE  IF NOT EXISTS garminrunsschema.shedlock(
@@ -42,7 +42,7 @@ CREATE TABLE IF NOT EXISTS garminrunsschema.file_name_tracker
     created_at timestamp NOT NULL,
     created_by varchar(40) NOT NULL,
     updated_at           timestamp        DEFAULT NULL,
-    updated_by           varchar(20) DEFAULT NULL,
+    updated_by           varchar(40) DEFAULT NULL,
     primary key (id)
 )
 

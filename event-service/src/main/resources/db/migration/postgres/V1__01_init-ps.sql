@@ -18,6 +18,7 @@ create table  runeventsprojectschema.domains
 );
 
 
+
 create table runeventsprojectschema.domain_events
 (
     id          bigint      default nextval('runeventsprojectschema.event_id_seq'::regclass) not null
