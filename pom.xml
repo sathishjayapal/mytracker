@@ -16,6 +16,9 @@
 
     <modules>
         <module>trackgarmin</module>
+        <module>garmindatainitializer</module>
+        <module>sathishruns-common</module>
+        <module>sathishaccount-query</module>
         <module>trackmeditation</module>
         <module>trackstrava</module>
         <module>event-service</module>
