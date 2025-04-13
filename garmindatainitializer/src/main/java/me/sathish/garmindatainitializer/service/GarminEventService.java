@@ -6,7 +6,7 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
-import org.apache.commons.lang.math.RandomUtils;
+import java.util.Random;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
@@ -19,7 +19,7 @@ public interface GarminEventService {
             GarminEventService.logger.info("Service Instance: {}", serviceInstance.getUri());
             String jsonPayload = String.format(
                     "{\"eventId\": %d, \"type\": \"%s\", \"payload\": \"%s\", \"domainName\": \"%s\"}",
-                    RandomUtils.nextInt(10), eventType, "Sample payload data", "GARMIN");
+                    new Random().nextInt(10), eventType, "Sample payload data", "GARMIN");
             String auth = "Admin:Admin1234%"; // replace with actual username and password
             String encodedAuth = Base64.getEncoder().encodeToString(auth.getBytes(StandardCharsets.UTF_8));
             HttpRequest request = HttpRequest.newBuilder()
