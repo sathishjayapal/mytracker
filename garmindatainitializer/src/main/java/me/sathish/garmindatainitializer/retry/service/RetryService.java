@@ -6,6 +6,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestClient;
 
 /**
  * Service class for handling retry logic.
@@ -14,7 +15,7 @@ import org.springframework.stereotype.Service;
 public class RetryService implements GarminEventService {
     private final RetryCounter retryCounter;
     private final ApplicationContext applicationContext;
-    private final DiscoveryClient discoveryClient;
+    private final RestClient restClient;
 
     /**
      * Constructor for RetryService.
@@ -23,35 +24,38 @@ public class RetryService implements GarminEventService {
      * @param applicationContext the application context for shutting down the application
      */
     public RetryService(
-            RetryCounter retryCounter, ApplicationContext applicationContext, DiscoveryClient discoveryClient) {
+            RetryCounter retryCounter, ApplicationContext applicationContext, RestClient restClient) {
         this.retryCounter = retryCounter;
         this.applicationContext = applicationContext;
-        this.discoveryClient = discoveryClient;
+        this.restClient = restClient;
     }
 
     /**
      * Performs a task with retry logic. If the maximum number of retries is reached,
      * the application will shut down.
      */
-    public void performTask() {
+    public void performShutDownTask() {
         int currentRetryCount = retryCounter.incrementAndGet();
         if (currentRetryCount >= 3) {
-            recordEvent("ERROR- Max retries reached. Shutting down application...", discoveryClient);
+            recordRestClientEvent("ERROR- Max retries reached. Shutting down application...", restClient);
             // Send Email logic here.
             shutdownApplication();
         } else {
-            recordEvent("Task succeeded!...", discoveryClient);
+            recordRestClientEvent("Task succeeded!...", restClient);
         }
     }
 
     /**
      * Shuts down the application.
      */
-    private void shutdownApplication() {
+    private void shutdownApplication()
+    {
+        recordRestClientEvent("Shutting down application...", restClient);
         System.exit(SpringApplication.exit(applicationContext, () -> 0));
     }
 
     public void performEmailTask() {
         // Send Email logic here.
+        System.out.println("Email sent successfully");
     }
 }

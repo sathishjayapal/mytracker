@@ -18,6 +18,7 @@
         <module>trackgarmin</module>
         <module>trackmeditation</module>
         <module>trackstrava</module>
+        <module>garmindatainitializer</module>
     </modules>
 
     <build>
