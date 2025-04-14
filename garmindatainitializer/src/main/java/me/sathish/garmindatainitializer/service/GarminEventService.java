@@ -12,6 +12,7 @@ public interface GarminEventService {
     Logger logger = LoggerFactory.getLogger(GarminEventService.class);
 
     default void recordRestClientEvent(String eventType, RestClient restClient) {
+        System.out.println("Event Type: " + eventType);
         String jsonPayload = String.format(
                 "{\"eventId\": %d, \"type\": \"%s\", \"payload\": \"%s\", \"domainName\": \"%s\"}",
                 RandomGenerator.getDefault().nextInt(50,1000), eventType, "Sample payload data", "GARMIN");
