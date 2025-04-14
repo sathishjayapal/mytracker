@@ -10,7 +10,6 @@ import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -22,10 +21,7 @@ public class BlobFileUploader {
     @Value("${file.path}")
     private String filePath;
 
-    private final Environment environment;
-
     public BlobFileUploader(Environment environment) {
-        this.environment = environment;
         String connectStr = environment.getProperty("azure.storage.connection-string");
         blobServiceClient =
                 new BlobServiceClientBuilder().connectionString(connectStr).buildClient();
@@ -78,11 +74,5 @@ public class BlobFileUploader {
         } else {
             System.out.println("File does not exist");
         }
-    }
-
-    @Scheduled(cron = "${scheduling.cron}")
-    public void run() {
-        listBlobs();
-        uploadActivity();
     }
 }

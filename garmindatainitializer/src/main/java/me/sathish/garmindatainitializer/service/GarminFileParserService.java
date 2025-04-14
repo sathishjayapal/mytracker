@@ -27,6 +27,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
+import org.springframework.web.client.RestClient;
 
 /**
  * Service class for parsing Garmin files and saving activities to the database.
@@ -42,7 +43,7 @@ public class GarminFileParserService implements GarminEventService {
     private final RawGarminRunMapper rawActivitiesMapper;
     private final RetryService retryService;
     private final Environment env;
-    private final DiscoveryClient discoveryClient;
+    private final RestClient restClient;
 
     @Value("${team.value}")
     private String teamName;
@@ -73,14 +74,14 @@ public class GarminFileParserService implements GarminEventService {
             FileNameTrackerRepository fileNameTrackerRepository,
             RetryService retryService,
             Environment env,
-            DiscoveryClient discoveryClient) {
+            RestClient restClient) {
         this.garminRunRepository = garminRunRepository;
         this.rawActivitiesMapper = rawActivitiesMapper;
         this.fileNameTrackerRepository = fileNameTrackerRepository;
         this.retryService = retryService;
         this.env = env;
         this.blobNameUrl = env.getProperty("blobNameUrl");
-        this.discoveryClient = discoveryClient;
+        this.restClient = restClient;
     }
 
     /**
@@ -103,19 +104,19 @@ public class GarminFileParserService implements GarminEventService {
                 StringUtils.hasText(blobNameUrl) ? blobNameUrl : StringUtils.hasText(urlName) ? urlName : fileName;
         var data = fileNameTrackerRepository.findFileNameTrackerByFilename(output);
         if (data.isPresent()) {
-            recordEvent("ERROR- File already processed " + output, discoveryClient);
-            retryService.performEmailTask();
+            recordRestClientEvent("ERROR- File already processed " + output, restClient);
+            retryService.performShutDownTask();
         } else {
             try {
                 List<RawActivities> rawActivitiesList = getRawActivities();
-                recordEvent("SUCCESS- FILE READ", discoveryClient);
+                recordRestClientEvent("SUCCESS- FILE READ", restClient);
                 List<GarminRun> activitiesList = garminRunRepository.saveAll(rawActivitiesList.stream()
                         .map(rawActivitiesMapper::toEntity)
                         .collect(Collectors.toList()));
-                recordEvent("SUCCESS- FILE PROCESSING COMPLETED FILE/BLOB_NAME\t" + output, discoveryClient);
+                recordRestClientEvent("SUCCESS- FILE PROCESSING COMPLETED FILE/BLOB_NAME\t" + output, restClient);
                 logger.info("Saved the activities in the database: {}", activitiesList.size());
             } catch (IOException | InterruptedException | CsvErrorsExceededException e) {
-                recordEvent("ERROR- FILE PROCESSING/SAVING FILE/BLOB_NAME\t" + output, discoveryClient);
+                recordRestClientEvent("ERROR- FILE PROCESSING/SAVING FILE/BLOB_NAME\t" + output, restClient);
                 logger.error("Error in saving the activities: {}", e.getMessage());
                 throw new RuntimeException("Error in saving the activities", e);
             }
@@ -142,7 +143,7 @@ public class GarminFileParserService implements GarminEventService {
                             HttpResponse.BodyHandlers.ofInputStream());
             if (response.statusCode() != 200) {
                 logger.error("Error in fetching the file from the url");
-                retryService.performTask();
+                retryService.performShutDownTask();
                 throw new IOException("Error in fetching the file from the url");
             }
             updateUploadMetaDataDetails(StringUtils.hasText(blobNameUrl) ? blobNameUrl : urlName);

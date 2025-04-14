@@ -1,12 +1,13 @@
-package me.sathish.eventservice.security;
+package me.sathish.garmindatainitializer.config;
 
-import java.util.List;
-import java.util.Optional;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
 
 @Service
 class SecurityUserDetailsService implements UserDetailsService {
