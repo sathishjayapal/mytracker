@@ -21,7 +21,6 @@
         <module>trackstrava</module>
         <module>garmindatainitializer</module>
     </modules>
-
     <build>
         <plugins>
             <plugin>
