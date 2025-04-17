@@ -27,6 +27,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestClient;
 
 /**
@@ -113,9 +114,10 @@ public class GarminFileParserService implements GarminEventService {
                 List<GarminRun> activitiesList = garminRunRepository.saveAll(rawActivitiesList.stream()
                         .map(rawActivitiesMapper::toEntity)
                         .collect(Collectors.toList()));
-                recordRestClientEvent("SUCCESS- FILE PROCESSING COMPLETED FILE/BLOB_NAME\t" + output, restClient);
+                recordRestClientEvent("SUCCESS- FILE PROCESSING COMPLETED FILE/BLOB_NAME/" + output, restClient);
                 logger.info("Saved the activities in the database: {}", activitiesList.size());
-            } catch (IOException | InterruptedException | CsvErrorsExceededException e) {
+            } catch (IOException | InterruptedException | CsvErrorsExceededException |
+                     HttpClientErrorException e) {
                 recordRestClientEvent("ERROR- FILE PROCESSING/SAVING FILE/BLOB_NAME\t" + output, restClient);
                 logger.error("Error in saving the activities: {}", e.getMessage());
                 throw new RuntimeException("Error in saving the activities", e);
