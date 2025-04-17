@@ -2,6 +2,7 @@ version: '3.8'
 services:
   config-server:
     image: 'travelhelper0h/sathish-config-server'
+    platform: linux/amd64
     container_name: sathish-config-server
     ports:
       - "8888:8888"
@@ -53,6 +54,7 @@ services:
   # conductor related service
   conduktor-console:
     image: conduktor/conduktor-console:1.24.0
+    platform: linux/amd64
     hostname: sathishconduktor-console
     container_name: sathishconduktor-console
     ports:
