@@ -23,7 +23,6 @@
         <module>sathishruns-common</module>
         <module>garmindatainitializer</module>
     </modules>
-
     <build>
         <plugins>
             <plugin>
