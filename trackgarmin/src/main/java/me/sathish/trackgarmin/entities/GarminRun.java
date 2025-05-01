@@ -10,7 +10,7 @@ import lombok.Setter;
 import org.hibernate.Hibernate;
 
 @Entity
-@Table(name = "garmin_runs")
+@Table(name = "garmin_runs", schema = "garminrunsschema")
 @Getter
 @Setter
 @NoArgsConstructor

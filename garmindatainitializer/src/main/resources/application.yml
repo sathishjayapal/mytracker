@@ -15,4 +15,4 @@ spring:
     fail-fast: true
     import: "optional:configserver:http://${configuri}/?fail-fast=true&max-attempts=10&max-interval=1500&multiplier=1.2&initial-interval=1000"
 server:
-  port: 8085
+  port: 8086

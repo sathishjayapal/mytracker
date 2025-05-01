@@ -1,4 +1,5 @@
 version: '3.8'
+name: mytracker
 services:
   config-server:
     image: 'travelhelper0h/sathish-config-server'
