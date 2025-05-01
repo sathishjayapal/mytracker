@@ -1,2 +1,2 @@
-drop schema if exists garminrunsschema CASCADE;
-CREATE SCHEMA garminrunsschema;
+drop schema if exists runs_schema CASCADE;
+CREATE SCHEMA runs_schema;

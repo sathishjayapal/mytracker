@@ -16,7 +16,7 @@ import org.hibernate.Hibernate;
 import org.hibernate.annotations.GenericGenerator;
 
 @Entity
-@Table(name = "strava_user")
+@Table(name = "strava_user" )
 @Getter
 @Setter
 @NoArgsConstructor

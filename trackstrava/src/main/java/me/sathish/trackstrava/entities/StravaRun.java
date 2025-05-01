@@ -13,7 +13,7 @@ import lombok.Setter;
 import org.hibernate.Hibernate;
 
 @Entity
-@Table(name = "strava_runs")
+@Table(name = "strava_runs", schema = "runs_schema")
 @Getter
 @Setter
 @NoArgsConstructor
