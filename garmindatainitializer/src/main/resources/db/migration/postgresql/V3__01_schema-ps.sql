@@ -1,9 +1,9 @@
-Drop table if exists garminrunsschema.garmin_runs;
-Drop sequence if exists garminrunsschema.garmin_runs_seq;
-create sequence garminrunsschema.garmin_runs_seq start with 1 increment by 50;
-CREATE TABLE IF NOT EXISTS garminrunsschema.garmin_runs
+Drop table if exists runs_schema.garmin_runs;
+Drop sequence if exists runs_schema.garmin_runs_seq;
+create sequence runs_schema.garmin_runs_seq start with 1 increment by 50;
+CREATE TABLE IF NOT EXISTS runs_schema.garmin_runs
 (
-    id                   bigint      DEFAULT nextval('garminrunsschema.garmin_runs_seq') not null,
+    id                   bigint      DEFAULT nextval('runs_schema.garmin_runs_seq') not null,
     activityID           bigint                                         not null,
     activity_date        text                                           not null,
     activity_type        text                                           not null,
