@@ -1,15 +1,15 @@
 
-Drop sequence if exists garminrunsschema.garmin_runs_seq CASCADE;
-Drop table if exists garminrunsschema.garmin_runs CASCADE;
-Drop table if exists garminrunsschema.file_name_tracker CASCADE;
-Drop sequence if exists garminrunsschema.garmin_runs_seq CASCADE;
-drop schema if exists garminrunsschema CASCADE;
-CREATE SCHEMA garminrunsschema;
-create sequence garminrunsschema.garmin_runs_seq start with 1 increment by 50;
-create sequence garminrunsschema.file_name_tracker_seq start with 1 increment by 50;
-CREATE TABLE IF NOT EXISTS garminrunsschema.garmin_runs
+Drop sequence if exists runs_schema.garmin_runs_seq CASCADE;
+Drop table if exists runs_schema.garmin_runs CASCADE;
+Drop table if exists runs_schema.file_name_tracker CASCADE;
+Drop sequence if exists runs_schema.garmin_runs_seq CASCADE;
+drop schema if exists runs_schema CASCADE;
+CREATE SCHEMA runs_schema;
+create sequence runs_schema.garmin_runs_seq start with 1 increment by 50;
+create sequence runs_schema.file_name_tracker_seq start with 1 increment by 50;
+CREATE TABLE IF NOT EXISTS runs_schema.garmin_runs
 (
-    id                   bigint      DEFAULT nextval('garminrunsschema.garmin_runs_seq') not null,
+    id                   bigint      DEFAULT nextval('runs_schema.garmin_runs_seq') not null,
     activityID           numeric                                        not null,
     activity_date        text                                          not null,
     activity_type        text                                          not null,
@@ -25,16 +25,16 @@ CREATE TABLE IF NOT EXISTS garminrunsschema.garmin_runs
     updated_by           varchar(20) DEFAULT NULL,
     primary key (id)
 );
-CREATE TABLE  IF NOT EXISTS garminrunsschema.shedlock(
+CREATE TABLE  IF NOT EXISTS runs_schema.shedlock(
   name text NOT NULL,
   lock_until timestamp NOT NULL,
   locked_at timestamp NOT NULL,
   locked_by text NOT NULL,
   PRIMARY KEY (name)
 );
-CREATE TABLE IF NOT EXISTS garminrunsschema.file_name_tracker
+CREATE TABLE IF NOT EXISTS runs_schema.file_name_tracker
 (
-    id bigint DEFAULT nextval('garminrunsschema.file_name_tracker_seq') not null,
+    id bigint DEFAULT nextval('runs_schema.file_name_tracker_seq') not null,
     filename text not null,
     created_at timestamp NOT NULL,
     created_by varchar(40) NOT NULL,

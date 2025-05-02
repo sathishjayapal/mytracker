@@ -1,18 +1,28 @@
 
-Drop sequence if exists garminrunsschema.garmin_runs_seq CASCADE;
-Drop table if exists garminrunsschema.garmin_runs CASCADE;
-drop sequence if exists garminrunsschema.file_name_tracker_seq CASCADE;
-Drop table if exists garminrunsschema.file_name_tracker CASCADE;
-drop table if exists garminrunsschema.shedlock CASCADE;
-drop schema if exists garminrunsschema CASCADE;
+Drop sequence if exists runs_schema.garmin_runs_seq CASCADE;
+Drop table if exists runs_schema.garmin_runs CASCADE;
+drop sequence if exists runs_schema.file_name_tracker_seq CASCADE;
+Drop table if exists runs_schema.file_name_tracker CASCADE;
+drop table if exists runs_schema.shedlock CASCADE;
+drop schema if exists runs_schema CASCADE;
 
 
-CREATE SCHEMA garminrunsschema;
-create sequence garminrunsschema.garmin_runs_seq start with 1 increment by 50;
-create sequence garminrunsschema.file_name_tracker_seq start with 1 increment by 50;
-CREATE TABLE IF NOT EXISTS garminrunsschema.garmin_runs
+CREATE SCHEMA runs_schema;
+create sequence runs_schema.garmin_runs_seq start with 1 increment by 50;
+create sequence runs_schema.file_name_tracker_seq start with 1 increment by 50;
+CREATE TABLE runs_schema.users
 (
-    id                   bigint      DEFAULT nextval('garminrunsschema.garmin_runs_seq') not null,
+    id         BIGSERIAL PRIMARY KEY,
+    email      VARCHAR(100) NOT NULL UNIQUE,
+    password   VARCHAR(100) NOT NULL,
+    name       VARCHAR(100) NOT NULL,
+    role       VARCHAR(20)  NOT NULL DEFAULT 'ROLE_USER',
+    created_at TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS runs_schema.garmin_runs
+(
+    id                   bigint      DEFAULT nextval('runs_schema.garmin_runs_seq') not null,
     activityID           numeric                                        not null,
     activity_date        text                                          not null,
     activity_type        text                                          not null,
@@ -23,26 +33,27 @@ CREATE TABLE IF NOT EXISTS garminrunsschema.garmin_runs
     max_heart_rate       text,
     calories             text                                          ,
     created_at           timestamp                                          NOT NULL,
-    created_by           varchar(40)                                   NOT NULL,
+    created_by           BIGINT                                   NOT NULL,
     updated_at           timestamp        DEFAULT NULL,
     updated_by           varchar(40) DEFAULT NULL,
-    primary key (id)
+    primary key (id),
+    CONSTRAINT fk_run_users FOREIGN KEY (created_by) REFERENCES runs_schema.users (id)
 );
-CREATE TABLE  IF NOT EXISTS garminrunsschema.shedlock(
+CREATE TABLE  IF NOT EXISTS runs_schema.shedlock(
   name text NOT NULL,
   lock_until timestamp NOT NULL,
   locked_at timestamp NOT NULL,
   locked_by text NOT NULL,
   PRIMARY KEY (name)
 );
-CREATE TABLE IF NOT EXISTS garminrunsschema.file_name_tracker
+CREATE TABLE IF NOT EXISTS runs_schema.file_name_tracker
 (
-    id bigint DEFAULT nextval('garminrunsschema.file_name_tracker_seq') not null,
+    id bigint DEFAULT nextval('runs_schema.file_name_tracker_seq') not null,
     filename text not null,
     created_at timestamp NOT NULL,
     created_by varchar(40) NOT NULL,
     updated_at           timestamp        DEFAULT NULL,
     updated_by           varchar(40) DEFAULT NULL,
     primary key (id)
-)
+);
 

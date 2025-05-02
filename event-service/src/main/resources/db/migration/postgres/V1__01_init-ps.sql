@@ -1,7 +1,7 @@
-Drop sequence if exists runeventsprojectschema.event_id_seq;
-Drop sequence if exists runeventsprojectschema.domain_id_seq;
-Drop table if exists runeventsprojectschema.domain_events;
-drop table if exists runeventsprojectschema.domains;
+Drop sequence if exists runeventsprojectschema.event_id_seq cascade;
+Drop sequence if exists runeventsprojectschema.domain_id_seq cascade;
+Drop table if exists runeventsprojectschema.domain_events cascade;
+drop table if exists runeventsprojectschema.domains cascade;
 
 create sequence  runeventsprojectschema.event_id_seq start with 1 increment by 50;
 create sequence  runeventsprojectschema.domain_id_seq start with 1 increment by 50;
