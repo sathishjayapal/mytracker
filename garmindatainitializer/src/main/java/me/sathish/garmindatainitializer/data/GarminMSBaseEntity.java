@@ -3,6 +3,8 @@ package me.sathish.garmindatainitializer.data;
 import jakarta.persistence.Column;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.MappedSuperclass;
+
+import java.math.BigInteger;
 import java.time.LocalDateTime;
 import lombok.Getter;
 import lombok.Setter;
@@ -25,7 +27,7 @@ public class GarminMSBaseEntity {
 
     @CreatedBy
     @Column(updatable = false)
-    private String createdBy;
+    private BigInteger createdBy;
 
     @LastModifiedDate
     @Column(insertable = false)
@@ -33,5 +35,5 @@ public class GarminMSBaseEntity {
 
     @LastModifiedBy
     @Column(insertable = false)
-    private String updatedBy;
+    private BigInteger updatedBy;
 }

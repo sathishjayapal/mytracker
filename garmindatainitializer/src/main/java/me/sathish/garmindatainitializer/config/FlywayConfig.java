@@ -1,6 +1,7 @@
-package me.sathish.eventservice.config;
+package me.sathish.garmindatainitializer.config;
 
-import me.sathish.eventservice.ApplicationProperties;
+
+import me.sathish.garmindatainitializer.ApplicationProperties;
 import org.flywaydb.core.Flyway;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -29,11 +30,7 @@ public class FlywayConfig {
         Flyway flyway = Flyway.configure()
                 .dataSource(dataSourceUrl, dataSourceUsername, dataSourcePassword)
                 .schemas(applicationProperties.db().defaultSchema())
-                .createSchemas(true)
                 .load();
-        flyway.repair();
-        flyway.migrate();
-        flyway.validate();
         return flyway;
     }
 }

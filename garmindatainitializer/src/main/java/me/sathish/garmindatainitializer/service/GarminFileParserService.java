@@ -8,6 +8,7 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.Data;
@@ -18,6 +19,7 @@ import me.sathish.garmindatainitializer.repos.GarminDataRepository;
 import me.sathish.garmindatainitializer.retry.service.RetryService;
 import me.sathish.garmindatainitializer.tracker.data.EventTracker;
 import me.sathish.garmindatainitializer.tracker.repos.FileNameTrackerRepository;
+import org.postgresql.util.PSQLException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -116,8 +118,7 @@ public class GarminFileParserService implements GarminEventService {
                         .collect(Collectors.toList()));
                 recordRestClientEvent("SUCCESS- FILE PROCESSING COMPLETED FILE/BLOB_NAME/" + output, restClient);
                 logger.info("Saved the activities in the database: {}", activitiesList.size());
-            } catch (IOException | InterruptedException | CsvErrorsExceededException |
-                     HttpClientErrorException e) {
+            } catch (Exception e) {
                 recordRestClientEvent("ERROR- FILE PROCESSING/SAVING FILE/BLOB_NAME\t" + output, restClient);
                 logger.error("Error in saving the activities: {}", e.getMessage());
                 throw new RuntimeException("Error in saving the activities", e);
