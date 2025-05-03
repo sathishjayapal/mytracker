@@ -105,8 +105,8 @@ public class GarminFileParserService implements GarminEventService {
     public void readFirstLines() {
         String output =
                 StringUtils.hasText(blobNameUrl) ? blobNameUrl : StringUtils.hasText(urlName) ? urlName : fileName;
-        var data = fileNameTrackerRepository.findFileNameTrackerByFilename(output);
-        if (data.isPresent()) {
+        var data = fileNameTrackerRepository.queryEventTrackerByFileName(output);
+        if (data!=null){
             recordRestClientEvent("ERROR- File already processed " + output, restClient);
             retryService.performShutDownTask();
         } else {
@@ -165,7 +165,7 @@ public class GarminFileParserService implements GarminEventService {
      */
     private void updateUploadMetaDataDetails(String fileName) {
         EventTracker fileNameTracker = new EventTracker();
-        fileNameTracker.setFilename(fileName);
+        fileNameTracker.setFileName(fileName);
         fileNameTrackerRepository.save(fileNameTracker);
     }
 }

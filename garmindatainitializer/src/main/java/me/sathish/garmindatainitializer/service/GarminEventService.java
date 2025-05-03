@@ -20,7 +20,7 @@ public interface GarminEventService {
         String encodedAuth = Base64.getEncoder().encodeToString(auth.getBytes(StandardCharsets.UTF_8));
         var dataReturn= restClient
                 .post()
-                .uri("http://localhost:9080/domain-events")//TODO externalize this
+                .uri("http://localhost:9081/domain-events")//TODO externalize this
                 .body(jsonPayload)
                 .header("Authorization", "Basic " + encodedAuth)
                 .header("Content-Type", "application/json").retrieve().body(String.class);

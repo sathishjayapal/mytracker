@@ -5,7 +5,7 @@ import lombok.*;
 import me.sathish.garmindatainitializer.data.GarminMSBaseEntity;
 
 @Entity
-@Table(name = "file_name_tracker")
+@Table(name = "file_name_tracker", schema = "runs_schema")
 @Getter
 @Setter
 @ToString
@@ -16,5 +16,5 @@ public class EventTracker extends GarminMSBaseEntity {
     private Long id;
 
     @Column(nullable = false)
-    private String filename;
+    private String fileName;
 }
