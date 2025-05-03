@@ -34,4 +34,4 @@ management:
 
 ################ Database #####################
 server:
-  port: 9080
+  port: 9081
