@@ -14,13 +14,13 @@ public interface GarminEventService {
     default void recordRestClientEvent(String eventType, RestClient restClient) {
         System.out.println("Event Type: " + eventType);
         String jsonPayload = String.format(
-                "{\"eventId\": %d, \"type\": \"%s\", \"payload\": \"%s\", \"domainName\": \"%s\"}",
+                "{\"eventId\": %d, \"type\": \"%s\", \"payload\": \"%s\", \"domainName\": \"%s\"}",//TODO externalize this
                 RandomGenerator.getDefault().nextInt(50,1000), eventType, "Sample payload data", "GARMIN");
         String auth = "Admin:Admin1234%"; // replace with actual username and password
         String encodedAuth = Base64.getEncoder().encodeToString(auth.getBytes(StandardCharsets.UTF_8));
         var dataReturn= restClient
                 .post()
-                .uri("http://localhost:8082/domain-events")
+                .uri("http://localhost:9080/domain-events")//TODO externalize this
                 .body(jsonPayload)
                 .header("Authorization", "Basic " + encodedAuth)
                 .header("Content-Type", "application/json").retrieve().body(String.class);

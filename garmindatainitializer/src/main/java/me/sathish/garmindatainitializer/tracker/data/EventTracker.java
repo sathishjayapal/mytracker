@@ -5,7 +5,7 @@ import lombok.*;
 import me.sathish.garmindatainitializer.data.GarminMSBaseEntity;
 
 @Entity
-@Table(name = "file_name_tracker", schema = "garminrunsschema")
+@Table(name = "file_name_tracker")
 @Getter
 @Setter
 @ToString

@@ -19,6 +19,8 @@ app:
     allowed-origins: "*"
     allowed-methods: "*"
     allowed-headers: "*"
+  db:
+    defaultSchema: runeventsprojectschema
 
 ################ Actuator #####################
 management:
