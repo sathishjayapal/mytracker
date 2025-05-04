@@ -1,0 +1,109 @@
+{
+  "name": "forgraph",
+  "version": "1",
+  "items": [
+    {
+      "type": "graphql",
+      "name": "localhost:8083/graphql",
+      "filename": "localhost-8083-graphql.bru",
+      "seq": 2,
+      "request": {
+        "url": "http://localhost:8083/graphql",
+        "method": "POST",
+        "headers": [
+          {
+            "name": "Content-Type",
+            "value": "application/json",
+            "enabled": true
+          }
+        ],
+        "params": [],
+        "body": {
+          "mode": "none",
+          "formUrlEncoded": [],
+          "multipartForm": [],
+          "file": []
+        },
+        "script": {},
+        "vars": {},
+        "assertions": [],
+        "tests": "",
+        "docs": "",
+        "auth": {
+          "mode": "inherit"
+        }
+      }
+    },
+    {
+      "type": "graphql",
+      "name": "localhost:8083/rest",
+      "filename": "localhost-8083-rest.bru",
+      "seq": 3,
+      "request": {
+        "url": "http://localhost:8083/garmin",
+        "method": "GET",
+        "headers": [
+          {
+            "name": "Content-Type",
+            "value": "application/json",
+            "enabled": true
+          }
+        ],
+        "params": [],
+        "body": {
+          "mode": "none",
+          "formUrlEncoded": [],
+          "multipartForm": [],
+          "file": []
+        },
+        "script": {},
+        "vars": {},
+        "assertions": [],
+        "tests": "",
+        "docs": "",
+        "auth": {
+          "mode": "inherit"
+        }
+      }
+    },
+    {
+      "type": "http",
+      "name": "track-garmin garmin save post",
+      "filename": "track-garmin garmin save post.bru",
+      "seq": 4,
+      "request": {
+        "url": "http://localhost:9042/trackgarmin/api/garminrun",
+        "method": "POST",
+        "headers": [],
+        "params": [],
+        "body": {
+          "mode": "json",
+          "json": "{\n  \"activityID\": \"12345\",\n  \"activityDate\": \"2023-10-01\",\n  \"activityType\": \"Running\",\n  \"activityDescription\": \"Morning run in the park\",\n  \"elapsedTime\": \"00:45:30\",\n  \"distance\": \"5.0\",\n  \"calories\": \"300\",\n  \"maxHeartRate\": \"160\",\n  \"activityName\": \"Morning Run\"\n}",
+          "formUrlEncoded": [],
+          "multipartForm": [],
+          "file": []
+        },
+        "script": {},
+        "vars": {},
+        "assertions": [],
+        "tests": "",
+        "docs": "",
+        "auth": {
+          "mode": "inherit"
+        }
+      }
+    }
+  ],
+  "environments": [],
+  "brunoConfig": {
+    "version": "1",
+    "name": "forgraph",
+    "type": "collection",
+    "ignore": [
+      "node_modules",
+      ".git"
+    ],
+    "size": 0.00035190582275390625,
+    "filesCount": 2
+  }
+}
