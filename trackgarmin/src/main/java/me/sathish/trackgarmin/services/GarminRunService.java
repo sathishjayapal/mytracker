@@ -83,7 +83,6 @@ public class GarminRunService {
 
     private GarminRunResponse handleUserRequest(GarminRunRequest garminRunRequest) {
         GarminRun garminRun = garminRunMapper.toEntity(garminRunRequest);
-        garminRun.setId(RandomGenerator.getDefault().nextLong());
         GarminRun savedGarminRun = garminRunRepository.save(garminRun);
         return garminRunMapper.toResponse(savedGarminRun);
     }

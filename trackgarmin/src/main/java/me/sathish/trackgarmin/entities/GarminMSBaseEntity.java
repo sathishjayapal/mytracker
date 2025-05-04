@@ -1,8 +1,8 @@
 package me.sathish.trackgarmin.entities;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.EntityListeners;
-import jakarta.persistence.MappedSuperclass;
+import jakarta.persistence.*;
+
+import java.math.BigInteger;
 import java.time.LocalDateTime;
 import lombok.Getter;
 import lombok.Setter;
@@ -23,9 +23,9 @@ public class GarminMSBaseEntity {
     @Column(updatable = false)
     private LocalDateTime createdAt;
 
-    @CreatedBy
-    @Column(updatable = false)
-    private String createdBy;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "created_by")
+    private User createdBy;
 
     @LastModifiedDate
     @Column(insertable = false)
@@ -33,5 +33,5 @@ public class GarminMSBaseEntity {
 
     @LastModifiedBy
     @Column(insertable = false)
-    private String updatedBy;
+    private BigInteger updatedBy;
 }

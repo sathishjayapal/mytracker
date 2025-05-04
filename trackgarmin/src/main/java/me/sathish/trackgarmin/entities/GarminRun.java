@@ -10,14 +10,14 @@ import lombok.Setter;
 import org.hibernate.Hibernate;
 
 @Entity
-@Table(name = "garmin_runs", schema = "garminrunsschema")
+@Table(name = "garmin_runs", schema = "runs_schema")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class GarminRun extends GarminMSBaseEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false, unique = true)
