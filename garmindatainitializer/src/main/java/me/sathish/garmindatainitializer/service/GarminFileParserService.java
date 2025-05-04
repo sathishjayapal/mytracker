@@ -8,7 +8,6 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.sql.SQLException;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.Data;
@@ -17,19 +16,16 @@ import me.sathish.garmindatainitializer.data.RawActivities;
 import me.sathish.garmindatainitializer.data.RawGarminRunMapper;
 import me.sathish.garmindatainitializer.repos.GarminDataRepository;
 import me.sathish.garmindatainitializer.retry.service.RetryService;
-import me.sathish.garmindatainitializer.tracker.data.EventTracker;
-import me.sathish.garmindatainitializer.tracker.repos.FileNameTrackerRepository;
-import org.postgresql.util.PSQLException;
+import me.sathish.garmindatainitializer.data.FileNameTracker;
+import me.sathish.garmindatainitializer.repos.FileNameTrackerRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
-import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestClient;
 
 /**
@@ -105,8 +101,8 @@ public class GarminFileParserService implements GarminEventService {
     public void readFirstLines() {
         String output =
                 StringUtils.hasText(blobNameUrl) ? blobNameUrl : StringUtils.hasText(urlName) ? urlName : fileName;
-        var data = fileNameTrackerRepository.queryEventTrackerByFileName(output);
-        if (data!=null){
+        var data = fileNameTrackerRepository.findByFileName(output);
+        if (data.isPresent()) {
             recordRestClientEvent("ERROR- File already processed " + output, restClient);
             retryService.performShutDownTask();
         } else {
@@ -164,7 +160,7 @@ public class GarminFileParserService implements GarminEventService {
      * @param fileName the name of the file
      */
     private void updateUploadMetaDataDetails(String fileName) {
-        EventTracker fileNameTracker = new EventTracker();
+        FileNameTracker fileNameTracker = new FileNameTracker();
         fileNameTracker.setFileName(fileName);
         fileNameTrackerRepository.save(fileNameTracker);
     }

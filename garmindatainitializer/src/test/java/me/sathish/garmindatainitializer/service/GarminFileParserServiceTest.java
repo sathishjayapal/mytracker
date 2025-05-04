@@ -12,7 +12,7 @@ import me.sathish.garmindatainitializer.data.RawActivities;
 import me.sathish.garmindatainitializer.data.RawGarminRunMapper;
 import me.sathish.garmindatainitializer.repos.GarminDataRepository;
 import me.sathish.garmindatainitializer.retry.service.RetryService;
-import me.sathish.garmindatainitializer.tracker.repos.FileNameTrackerRepository;
+import me.sathish.garmindatainitializer.repos.FileNameTrackerRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

@@ -44,7 +44,7 @@ CREATE TABLE  IF NOT EXISTS runs_schema.shedlock(
 CREATE TABLE IF NOT EXISTS runs_schema.file_name_tracker
 (
     id bigint DEFAULT nextval('runs_schema.file_name_tracker_seq') not null,
-    filename text not null,
+    file_name text not null,
     created_at timestamp NOT NULL,
     created_by           BIGINT                                   NOT NULL,
     updated_at           timestamp        DEFAULT NULL,
