@@ -2,9 +2,10 @@ package me.sathish.trackgarmin.services;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.random.RandomGenerator;
+
 import lombok.RequiredArgsConstructor;
 import me.sathish.trackgarmin.entities.GarminRun;
+import me.sathish.trackgarmin.entities.User;
 import me.sathish.trackgarmin.exception.GarminRunNotFoundException;
 import me.sathish.trackgarmin.mapper.GarminRunMapper;
 import me.sathish.trackgarmin.model.query.FindGarminRunsQuery;
@@ -12,6 +13,7 @@ import me.sathish.trackgarmin.model.request.GarminRunRequest;
 import me.sathish.trackgarmin.model.response.GarminRunResponse;
 import me.sathish.trackgarmin.model.response.PagedResult;
 import me.sathish.trackgarmin.repositories.GarminRunRepository;
+import me.sathish.trackgarmin.repositories.UserRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -28,6 +30,7 @@ public class GarminRunService {
     private final GarminRunRepository garminRunRepository;
     private final GarminRunMapper garminRunMapper;
     private final TransactionTemplate transactionTemplate;
+    private final UserRepository userRepository;
 
     public PagedResult<GarminRunResponse> findAllGarminRuns(FindGarminRunsQuery findGarminRunsQuery) {
 
@@ -69,20 +72,23 @@ public class GarminRunService {
 
     @Transactional
     public GarminRunResponse saveGarminRun(GarminRunRequest garminRunRequest) {
-
+        Optional<User> sathishUser= userRepository.findById(1L);
         for (int i = 0; i < 10000; i++) {
             new Thread(() -> {
                         System.out.println("Inserting from the virtual thread"
                                 + Thread.currentThread().getName());
-                        handleUserRequest(garminRunRequest);
+                        handleUserRequest(garminRunRequest,sathishUser);
                     })
                     .start();
         }
-        return handleUserRequest(garminRunRequest);
+        return handleUserRequest(garminRunRequest, sathishUser);
     }
 
-    private GarminRunResponse handleUserRequest(GarminRunRequest garminRunRequest) {
+    private GarminRunResponse handleUserRequest(GarminRunRequest garminRunRequest, Optional<User> sathishUser) {
         GarminRun garminRun = garminRunMapper.toEntity(garminRunRequest);
+        if (sathishUser.isPresent()) {
+            garminRun.setCreatedBy(sathishUser.get());
+        }
         GarminRun savedGarminRun = garminRunRepository.save(garminRun);
         return garminRunMapper.toResponse(savedGarminRun);
     }
