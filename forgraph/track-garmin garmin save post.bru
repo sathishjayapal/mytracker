@@ -1,0 +1,26 @@
+meta {
+  name: track-garmin garmin save post
+  type: http
+  seq: 4
+}
+
+post {
+  url: http://localhost:9042/trackgarmin/api/garminrun
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "activityID": "12345",
+    "activityDate": "2023-10-01",
+    "activityType": "Running",
+    "activityDescription": "Morning run in the park",
+    "elapsedTime": "00:45:30",
+    "distance": "5.0",
+    "calories": "300",
+    "maxHeartRate": "160",
+    "activityName": "Morning Run",
+    "createdBy": 1
+  }
+}

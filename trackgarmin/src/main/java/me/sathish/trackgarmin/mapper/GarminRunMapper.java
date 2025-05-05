@@ -35,7 +35,6 @@ public class GarminRunMapper {
     }
 
     public void mapGarminRunWithRequest(GarminRun garminRuns, GarminRunRequest garminRunRequest) {
-        updateIfDifferent(garminRuns.getActivityName(), garminRunRequest.activityName(), garminRuns::setActivityName);
         updateIfDifferent(garminRuns.getActivityType(), garminRunRequest.activityType(), garminRuns::setActivityType);
         updateIfDifferent(
                 garminRuns.getActivityDescription(),
