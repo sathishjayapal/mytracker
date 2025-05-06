@@ -73,22 +73,12 @@ public class GarminRunService {
     @Transactional
     public GarminRunResponse saveGarminRun(GarminRunRequest garminRunRequest) {
         Optional<User> sathishUser= userRepository.findById(1L);
-        for (int i = 0; i < 10000; i++) {
-            new Thread(() -> {
-                        System.out.println("Inserting from the virtual thread"
-                                + Thread.currentThread().getName());
-                        handleUserRequest(garminRunRequest,sathishUser);
-                    })
-                    .start();
-        }
         return handleUserRequest(garminRunRequest, sathishUser);
     }
 
     private GarminRunResponse handleUserRequest(GarminRunRequest garminRunRequest, Optional<User> sathishUser) {
         GarminRun garminRun = garminRunMapper.toEntity(garminRunRequest);
-        if (sathishUser.isPresent()) {
-            garminRun.setCreatedBy(sathishUser.get());
-        }
+        sathishUser.ifPresent(garminRun::setCreatedBy);
         GarminRun savedGarminRun = garminRunRepository.save(garminRun);
         return garminRunMapper.toResponse(savedGarminRun);
     }
