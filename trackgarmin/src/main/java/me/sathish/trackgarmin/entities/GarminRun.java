@@ -55,8 +55,9 @@ public class GarminRun {
     @JoinColumn(name = "created_by", nullable = false)
     private User createdBy;
 
+
     @ColumnDefault("CURRENT_TIMESTAMP")
-    @Column(nullable = false, name = "created_at")
+    @Column(name = "created_at")
     private Instant createdAt;
 
     @ColumnDefault("CURRENT_TIMESTAMP")
@@ -75,6 +76,10 @@ public class GarminRun {
         return id != null && Objects.equals(id, garminRun.id);
     }
 
+    @PrePersist
+    protected void onCreate() {
+        this.createdAt = Instant.now();
+    }
     @Override
     public int hashCode() {
         return getClass().hashCode();
