@@ -3,9 +3,17 @@
 spring:
   application:
     name: "trackstrava"
+  cloud:
+      config:
+          username: ${configserverUsername}
+          password: ${configserverPassword}
   config:
+      name: trackstrava
+      username: ${configserverUsername}
+      password: ${configserverPassword}
+      uri: ${configuri}
       fail-fast: true
-      import: "optional:configserver:http://20.225.3.111:8888?fail-fast=true&max-attempts=10&max-interval=1500&multiplier=1.2&initial-interval=1100"
+      import: "optional:configserver:http://${configuri}/?fail-fast=true&max-attempts=10&max-interval=1500&multiplier=1.2&initial-interval=1000"
   threads:
       virtual:
           enabled: on

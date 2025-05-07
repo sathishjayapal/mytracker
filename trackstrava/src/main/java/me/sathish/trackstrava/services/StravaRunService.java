@@ -5,12 +5,14 @@ import java.util.Optional;
 import java.util.random.RandomGenerator;
 import lombok.RequiredArgsConstructor;
 import me.sathish.trackstrava.entities.StravaRun;
+import me.sathish.trackstrava.entities.User;
 import me.sathish.trackstrava.exception.StravaRunNotFoundException;
 import me.sathish.trackstrava.mapper.StravaRunMapper;
 import me.sathish.trackstrava.model.query.FindStravaRunsQuery;
 import me.sathish.trackstrava.model.request.StravaRunRequest;
 import me.sathish.trackstrava.model.response.StravaRunResponse;
 import me.sathish.trackstrava.repositories.StravaRunRepository;
+import me.sathish.trackstrava.repositories.UserRepository;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -24,6 +26,7 @@ public class StravaRunService {
 
     private final StravaRunRepository stravaRunRepository;
     private final StravaRunMapper stravaRunMapper;
+    private final UserRepository userRepository;
 
     public Optional<StravaRunResponse> findStravaRunById(Long id) {
         return stravaRunRepository.findById(id).map(stravaRunMapper::toResponse);
@@ -50,6 +53,7 @@ public class StravaRunService {
 
     @Transactional
     public StravaRunResponse saveStravaRun(StravaRunRequest stravaRunRequest) {
+        User user= userRepository.findById(1L).orElseThrow(() -> new StravaRunNotFoundException(1L));
         for (int i = 0; i < 1000; i++) {
             new Thread(() -> {
                         System.out.println("Inserting from the system thread \t"
@@ -57,6 +61,7 @@ public class StravaRunService {
                         StravaRun stravaRun = stravaRunMapper.toEntity(stravaRunRequest);
                         stravaRun.setRunNumber(RandomGenerator.getDefault().nextLong());
                         stravaRun.setCustomerId(RandomGenerator.getDefault().nextLong(0L, Long.MAX_VALUE));
+                        stravaRun.setCreatedBy(user);
                         StravaRun savedStravaRun = stravaRunRepository.save(stravaRun);
                     })
                     .start();
@@ -64,6 +69,7 @@ public class StravaRunService {
         StravaRun stravaRun = stravaRunMapper.toEntity(stravaRunRequest);
         stravaRun.setRunNumber(RandomGenerator.getDefault().nextLong());
         stravaRun.setCustomerId(RandomGenerator.getDefault().nextLong(0L, Long.MAX_VALUE));
+        stravaRun.setCreatedBy(user);
         StravaRun savedStravaRun = stravaRunRepository.save(stravaRun);
         return stravaRunMapper.toResponse(savedStravaRun);
     }

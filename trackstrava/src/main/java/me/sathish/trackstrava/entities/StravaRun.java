@@ -2,8 +2,14 @@ package me.sathish.trackstrava.entities;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+
+import java.math.BigInteger;
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.Objects;
 import lombok.AllArgsConstructor;
@@ -11,6 +17,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.Hibernate;
+import org.hibernate.annotations.ColumnDefault;
+import org.springframework.data.annotation.LastModifiedBy;
 
 @Entity
 @Table(name = "strava_runs", schema = "runs_schema")
@@ -18,7 +26,7 @@ import org.hibernate.Hibernate;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class StravaRun extends StravaMSBaseEntity {
+public class StravaRun{
     @Column(name = "customer_id")
     private Long customerId;
 
@@ -38,6 +46,22 @@ public class StravaRun extends StravaMSBaseEntity {
     @Column(nullable = false)
     private Long start_location;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "created_by", nullable = false)
+    private User createdBy;
+
+
+    @ColumnDefault("CURRENT_TIMESTAMP")
+    @Column(name = "created_at")
+    private Instant createdAt;
+
+    @ColumnDefault("CURRENT_TIMESTAMP")
+    @Column(nullable = false)
+    private Instant updatedAt;
+
+    @LastModifiedBy
+    @Column(insertable = false)
+    private BigInteger updatedBy;
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
