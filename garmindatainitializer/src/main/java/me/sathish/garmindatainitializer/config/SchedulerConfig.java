@@ -1,7 +1,6 @@
 package me.sathish.garmindatainitializer.config;
 
 import javax.sql.DataSource;
-
 import me.sathish.garmindatainitializer.ApplicationProperties;
 import net.javacrumbs.shedlock.core.LockProvider;
 import net.javacrumbs.shedlock.provider.jdbctemplate.JdbcTemplateLockProvider;

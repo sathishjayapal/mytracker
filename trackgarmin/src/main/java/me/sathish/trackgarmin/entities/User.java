@@ -1,11 +1,10 @@
 package me.sathish.trackgarmin.entities;
 
-
 import jakarta.persistence.*;
+import java.time.Instant;
 import me.sathish.trackgarmin.model.Role;
 import org.hibernate.annotations.ColumnDefault;
 
-import java.time.Instant;
 /**
  * User entity representing a user in the system.
  * This class is mapped to the "users" table in the database.
@@ -85,5 +84,4 @@ public class User {
     public void setCreatedAt(Instant createdAt) {
         this.createdAt = createdAt;
     }
-
 }

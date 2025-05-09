@@ -5,22 +5,16 @@ meta {
 }
 
 post {
-  url: http://localhost:9042/trackgarmin/api/garminrun
+  url: http://localhost:9032/api/stravarun
   body: json
   auth: inherit
 }
 
 body:json {
   {
-    "activityID": "12345",
-    "activityDate": "2023-10-01",
-    "activityType": "Running",
-    "activityDescription": "Morning run in the park",
-    "elapsedTime": "00:45:30",
-    "distance": "5.0",
-    "calories": "300",
-    "maxHeartRate": "160",
-    "activityName": "Morning Run",
-    "createdBy": 1
+    "run_name": "Morning Run",
+    "run_date": "2023-10-01 12:01:01",
+    "miles": 5,
+    "start_location": 12345
   }
 }

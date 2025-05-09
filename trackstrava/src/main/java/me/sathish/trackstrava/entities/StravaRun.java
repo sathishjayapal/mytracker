@@ -6,8 +6,8 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
-
 import java.math.BigInteger;
 import java.time.Instant;
 import java.time.LocalDateTime;
@@ -26,7 +26,7 @@ import org.springframework.data.annotation.LastModifiedBy;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class StravaRun{
+public class StravaRun {
     @Column(name = "customer_id")
     private Long customerId;
 
@@ -50,7 +50,6 @@ public class StravaRun{
     @JoinColumn(name = "created_by", nullable = false)
     private User createdBy;
 
-
     @ColumnDefault("CURRENT_TIMESTAMP")
     @Column(name = "created_at")
     private Instant createdAt;
@@ -62,12 +61,18 @@ public class StravaRun{
     @LastModifiedBy
     @Column(insertable = false)
     private BigInteger updatedBy;
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
         StravaRun stravaRun = (StravaRun) o;
         return runNumber != null && Objects.equals(runNumber, stravaRun.runNumber);
+    }
+
+    @PrePersist
+    protected void onCreate() {
+        this.createdAt = Instant.now();
     }
 
     @Override

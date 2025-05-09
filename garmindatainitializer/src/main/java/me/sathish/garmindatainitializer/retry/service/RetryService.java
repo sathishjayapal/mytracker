@@ -3,7 +3,6 @@ package me.sathish.garmindatainitializer.retry.service;
 import me.sathish.garmindatainitializer.retry.data.RetryCounter;
 import me.sathish.garmindatainitializer.service.GarminEventService;
 import org.springframework.boot.SpringApplication;
-import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
@@ -23,8 +22,7 @@ public class RetryService implements GarminEventService {
      * @param retryCounter the counter for tracking retry attempts
      * @param applicationContext the application context for shutting down the application
      */
-    public RetryService(
-            RetryCounter retryCounter, ApplicationContext applicationContext, RestClient restClient) {
+    public RetryService(RetryCounter retryCounter, ApplicationContext applicationContext, RestClient restClient) {
         this.retryCounter = retryCounter;
         this.applicationContext = applicationContext;
         this.restClient = restClient;
@@ -48,8 +46,7 @@ public class RetryService implements GarminEventService {
     /**
      * Shuts down the application.
      */
-    private void shutdownApplication()
-    {
+    private void shutdownApplication() {
         recordRestClientEvent("Shutting down application...", restClient);
         System.exit(SpringApplication.exit(applicationContext, () -> 0));
     }

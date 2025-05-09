@@ -26,6 +26,7 @@
         <commons-io.version>2.15.0</commons-io.version>
         <project.testresult.directory>${project.build.directory}/test-results</project.testresult.directory>
         <spotless.version>2.40.0</spotless.version>
+        <palantirJavaFormat.version>2.38.0</palantirJavaFormat.version>
         <dependency-check-maven.version>8.4.2</dependency-check-maven.version>
         <properties-maven-plugin.version>1.2.1</properties-maven-plugin.version>
         <sonar-maven-plugin.version>3.10.0.2594</sonar-maven-plugin.version>
@@ -277,7 +278,7 @@
                 <configuration>
                     <java>
                         <palantirJavaFormat>
-                            <version>2.38.0</version>
+                            <version>${palantirJavaFormat.version}</version>
                         </palantirJavaFormat>
                         <importOrder />
                         <removeUnusedImports />

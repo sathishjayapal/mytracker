@@ -2,7 +2,6 @@ package me.sathish.trackgarmin.services;
 
 import java.util.List;
 import java.util.Optional;
-
 import lombok.RequiredArgsConstructor;
 import me.sathish.trackgarmin.entities.GarminRun;
 import me.sathish.trackgarmin.entities.User;
@@ -72,7 +71,7 @@ public class GarminRunService {
 
     @Transactional
     public GarminRunResponse saveGarminRun(GarminRunRequest garminRunRequest) {
-        Optional<User> sathishUser= userRepository.findById(1L);
+        Optional<User> sathishUser = userRepository.findById(1L);
         return handleUserRequest(garminRunRequest, sathishUser);
     }
 

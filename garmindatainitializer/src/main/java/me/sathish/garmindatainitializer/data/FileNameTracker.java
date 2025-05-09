@@ -10,7 +10,7 @@ public class FileNameTracker extends GarminMSBaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false ,name = "file_name", unique = true)
+    @Column(nullable = false, name = "file_name", unique = true)
     private String fileName;
 
     public Long getId() {

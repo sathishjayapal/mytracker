@@ -3,7 +3,6 @@ package me.sathish.garmindatainitializer.data;
 import jakarta.persistence.Column;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.MappedSuperclass;
-
 import java.math.BigInteger;
 import java.time.LocalDateTime;
 import lombok.Getter;
