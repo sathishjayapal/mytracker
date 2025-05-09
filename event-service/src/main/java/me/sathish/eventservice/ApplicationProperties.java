@@ -11,10 +11,5 @@ public record ApplicationProperties(CorsProperties cors, DBProperties db) {
             @DefaultValue("*") String allowedMethods,
             @DefaultValue("*") String allowedHeaders) {}
 
-
-    public record DBProperties(
-            String defaultSchema
-    ) {
-
-    }
+    public record DBProperties(String defaultSchema) {}
 }

@@ -1,11 +1,9 @@
 package me.sathish.trackstrava.entities;
 
-
 import jakarta.persistence.*;
+import java.time.Instant;
 import me.sathish.trackstrava.model.Role;
 import org.hibernate.annotations.ColumnDefault;
-
-import java.time.Instant;
 
 /**
  * User entity representing a user in the system.
@@ -86,5 +84,4 @@ public class User {
     public void setCreatedAt(Instant createdAt) {
         this.createdAt = createdAt;
     }
-
 }

@@ -1,11 +1,8 @@
-package me.sathish.trackstrava.controllers;
-
 import static me.sathish.trackstrava.utils.StravaMSAppConstants.PROFILE_TEST;
 
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.test.context.ActiveProfiles;
 
-@WebMvcTest(controllers = StravaUserController.class)
+// @WebMvcTest(controllers = StravaRunController.class)
 @ActiveProfiles(PROFILE_TEST)
 class StravaUserControllerTest {
 

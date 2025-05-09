@@ -22,6 +22,7 @@
         <module>sathishaccount-query</module>
         <module>sathishruns-common</module>
         <module>garmindatainitializer</module>
+        <module>sathishrunsinitfordb</module>
     </modules>
     <build>
         <plugins>

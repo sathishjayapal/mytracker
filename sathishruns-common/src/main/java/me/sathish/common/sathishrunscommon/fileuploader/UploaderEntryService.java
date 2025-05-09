@@ -1,20 +1,22 @@
 package me.sathish.common.sathishrunscommon.fileuploader;
 
+import java.io.File;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
-import java.io.File;
-
 @Service
 public class UploaderEntryService {
     private final Environment environment;
     private final BlobFileUploader blobFileUploader;
+
     @Value("${file.folder}")
     private String folderPath;
+
     @Value("${file.path}")
     private String filePath;
+
     UploaderEntryService(Environment environment, BlobFileUploader blobFileUploader) {
         this.environment = environment;
         this.blobFileUploader = blobFileUploader;

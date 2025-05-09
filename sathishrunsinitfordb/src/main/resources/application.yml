@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: "sathishrunsinitfordb"
+  cloud:
+    config:
+      username: ${configserverUsername}
+      password: ${configserverPassword}
+  config:
+    name: garmindatainitializer
+    username: ${configserverUsername}
+    password: ${configserverPassword}
+    uri: ${configuri}
+    fail-fast: true
+    import: "optional:configserver:http://${configuri}/?fail-fast=true&max-attempts=10&max-interval=1500&multiplier=1.2&initial-interval=1000"
+server:
+  port: 8086

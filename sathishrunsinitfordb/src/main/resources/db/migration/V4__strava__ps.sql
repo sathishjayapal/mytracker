@@ -10,7 +10,7 @@ CREATE TABLE IF NOT EXISTS runs_schema.strava_runs
     miles          int          NOT NULL,
     start_location bigint       NOT NULL,
     created_at     date         NOT NULL,
-    created_by     varchar(20)  NOT NULL,
+    created_by     BIGINT  NOT NULL,
     updated_at     date        DEFAULT NULL,
     updated_by     varchar(20) DEFAULT NULL,
     CONSTRAINT stravafk_run_users FOREIGN KEY (created_by) REFERENCES runs_schema.users (id)
