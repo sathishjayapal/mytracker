@@ -56,14 +56,14 @@ public class StravaRunService {
         User user= userRepository.findById(1L).orElseThrow(() -> new StravaRunNotFoundException(1L));
 //        for (int i = 0; i < 1000; i++) {
 //            new Thread(() -> {
-                        System.out.println("Inserting from the system thread \t"
-                                + Thread.currentThread().getName());
-                        StravaRun stravaRun = stravaRunMapper.toEntity(stravaRunRequest);
-                        stravaRun.setRunNumber(RandomGenerator.getDefault().nextLong());
-                        stravaRun.setCustomerId(RandomGenerator.getDefault().nextLong(0L, Long.MAX_VALUE));
-                        stravaRun.setCreatedBy(user);
-                        StravaRun savedStravaRun = stravaRunRepository.save(stravaRun);
-//                    })
+//                        System.out.println("Inserting from the system thread \t"
+//                                + Thread.currentThread().getName());
+//                        StravaRun stravaRun = stravaRunMapper.toEntity(stravaRunRequest);
+//                        stravaRun.setRunNumber(RandomGenerator.getDefault().nextLong());
+//                        stravaRun.setCustomerId(RandomGenerator.getDefault().nextLong(0L, Long.MAX_VALUE));
+//                        stravaRun.setCreatedBy(user);
+//                        StravaRun savedStravaRun = stravaRunRepository.save(stravaRun);
+////                    })
 //                    .start();
 //        }
         StravaRun stravaRun = stravaRunMapper.toEntity(stravaRunRequest);
