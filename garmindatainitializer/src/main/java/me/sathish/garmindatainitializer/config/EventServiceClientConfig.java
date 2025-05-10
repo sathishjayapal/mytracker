@@ -14,7 +14,7 @@ public class EventServiceClientConfig {
         ClientHttpRequestFactory reqFactory = ClientHttpRequestFactoryBuilder.simple()
                 .withCustomizer(customeizer -> {
                     customeizer.setConnectTimeout(properties.urn().connectTimeout());
-                    customeizer.setReadTimeout(properties.urn().readTimeout());
+                    customeizer.setReadTimeout(properties.urn().readTimeout());//todo: check if this is correct
                 })
                 .build();
         System.out.printf("EventServiceClientConfig: %s%n", properties.urn().baseUrl());
