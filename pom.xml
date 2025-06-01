@@ -15,7 +15,6 @@
     </properties>
 
     <modules>
-        <module>event-service</module>
         <module>trackgarmin</module>
         <module>trackmeditation</module>
         <module>trackstrava</module>
