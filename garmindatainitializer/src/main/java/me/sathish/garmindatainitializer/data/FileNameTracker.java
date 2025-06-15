@@ -1,8 +1,20 @@
 package me.sathish.garmindatainitializer.data;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
+@NamedQuery(
+    name = "FileNameTracker.findByFileName",
+    query = "SELECT f FROM FileNameTracker f WHERE f.fileName = :fileName"
+)
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "file_name_tracker", schema = "runs_schema")
 public class FileNameTracker extends GarminMSBaseEntity {
 
@@ -13,19 +25,5 @@ public class FileNameTracker extends GarminMSBaseEntity {
     @Column(nullable = false, name = "file_name", unique = true)
     private String fileName;
 
-    public Long getId() {
-        return id;
-    }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getFileName() {
-        return fileName;
-    }
-
-    public void setFileName(String fileName) {
-        this.fileName = fileName;
-    }
 }
