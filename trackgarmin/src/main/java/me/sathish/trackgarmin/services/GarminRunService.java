@@ -75,7 +75,8 @@ public class GarminRunService {
         return handleUserRequest(garminRunRequest, sathishUser);
     }
 
-    private GarminRunResponse handleUserRequest(GarminRunRequest garminRunRequest, Optional<User> sathishUser) {
+    private GarminRunResponse handleUserRequest(GarminRunRequest garminRunRequest,
+                                                Optional<User> sathishUser) {
         GarminRun garminRun = garminRunMapper.toEntity(garminRunRequest);
         sathishUser.ifPresent(garminRun::setCreatedBy);
         GarminRun savedGarminRun = garminRunRepository.save(garminRun);
@@ -85,13 +86,10 @@ public class GarminRunService {
     @Transactional
     public GarminRunResponse updateGarminRun(Long id, GarminRunRequest garminRunRequest) {
         GarminRun garminRun = garminRunRepository.findById(id).orElseThrow(() -> new GarminRunNotFoundException(id));
-
         // Update the garminRun object with data from garminRunRequest
         garminRunMapper.mapGarminRunWithRequest(garminRun, garminRunRequest);
-
         // Save the updated garminRun object
         GarminRun updatedGarminRun = garminRunRepository.save(garminRun);
-
         return garminRunMapper.toResponse(updatedGarminRun);
     }
 
