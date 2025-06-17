@@ -11,6 +11,7 @@ import org.springframework.web.client.RestClient;
 public class EventServiceClientConfig {
     @Bean
     RestClient restClient(RestClient.Builder builder, ApplicationProperties properties) {
+
         ClientHttpRequestFactory reqFactory = ClientHttpRequestFactoryBuilder.simple()
                 .withCustomizer(customeizer -> {
                     customeizer.setConnectTimeout(properties.urn().connectTimeout());
