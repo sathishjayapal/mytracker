@@ -21,7 +21,7 @@ public interface GarminEventService {
 
     default void recordRestClientEvent(String eventType, RestClient restClient) {
         System.out.println("Event Type: " + eventType);
-        String auth = "sathish:password";
+        String auth = "sathish:sathish";
         String encodedAuth = Base64.getEncoder().encodeToString(auth.getBytes(StandardCharsets.UTF_8));
         HttpHeaders headers = new HttpHeaders();
         headers.set("Authorization", "Basic " + encodedAuth);
@@ -29,10 +29,11 @@ public interface GarminEventService {
         domainEventDTO.setEventId("A0001"); // Random event ID
         domainEventDTO.setEventType("GARMIN_EVENT"); // Assuming a constant event type for Garmin
         domainEventDTO.setPayload("Sample payload data"); // Sample payload data
-        domainEventDTO.setDomain(Long.valueOf(10024));
+        domainEventDTO.setDomain(Long.valueOf(10002));
         domainEventDTO.setCreatedBy("SYSTEM");
         domainEventDTO.setUpdatedBy("SYSTEM");
-        HttpEntity<DomainEventDTO> request = new HttpEntity<>(domainEventDTO, headers);        RestTemplate restTemplate = new RestTemplate();
+        HttpEntity<DomainEventDTO> request = new HttpEntity<>(domainEventDTO, headers);
+        RestTemplate restTemplate = new RestTemplate();
         String strData= restTemplate.postForObject("http://localhost:9081/api/domainEvents",request, String.class);
         var dataReturn = restClient
                 .post()
