@@ -74,3 +74,4 @@ target/
 /LOG_FILE_IS_UNDEFINED.2024-01-21.028129153380543.tmp
 
 logs/
+/.env
