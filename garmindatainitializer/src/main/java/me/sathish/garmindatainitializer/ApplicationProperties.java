@@ -14,5 +14,5 @@ public record ApplicationProperties(CorsProperties cors, UrnProperties urn, DBPr
             @DefaultValue("*") String allowedMethods,
             @DefaultValue("*") String allowedHeaders) {}
 
-    public record DBProperties(String shedlockTableName, String defaultSchema) {}
+    public record DBProperties(@DefaultValue("shedlock") String shedlockTableName, String defaultSchema) {}
 }

@@ -55,4 +55,9 @@ public class RetryService implements GarminEventService {
         // Send Email logic here.
         System.out.println("Email sent successfully");
     }
+
+    @Override
+    public void recordRestClientEvent(String eventType, RestClient restClient) {
+
+    }
 }
