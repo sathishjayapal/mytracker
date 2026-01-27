@@ -164,4 +164,9 @@ public class GarminFileParserService implements GarminEventService {
         fileNameTracker.setFileName(fileName);
         fileNameTrackerRepository.save(fileNameTracker);
     }
+
+    @Override
+    public void recordRestClientEvent(String eventType, RestClient restClient) {
+
+    }
 }

@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 public class RawGarminRunMapper {
     public GarminRun toEntity(RawActivities rawActivities) {
         GarminRun activities = new GarminRun();
-        activities.setActivityID(new BigInteger(rawActivities.getActivityID()));
+//        activities.setActivityID(new BigInteger(rawActivities.getActivityID()));
         activities.setActivityDate(rawActivities.getActivityDate());
         activities.setActivityType(rawActivities.getActivityType());
         activities.setActivityDescription(rawActivities.getActivityDescription());
