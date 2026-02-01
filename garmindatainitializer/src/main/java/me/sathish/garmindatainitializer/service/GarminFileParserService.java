@@ -8,15 +8,20 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.Data;
+import me.sathish.garmindatainitializer.data.DomainEventDTO;
 import me.sathish.garmindatainitializer.data.FileNameTracker;
 import me.sathish.garmindatainitializer.data.GarminRun;
 import me.sathish.garmindatainitializer.data.RawActivities;
 import me.sathish.garmindatainitializer.data.RawGarminRunMapper;
+import me.sathish.garmindatainitializer.data.RunAppUser;
 import me.sathish.garmindatainitializer.repos.FileNameTrackerRepository;
 import me.sathish.garmindatainitializer.repos.GarminDataRepository;
+import me.sathish.garmindatainitializer.repos.RunAppUserRepository;
 import me.sathish.garmindatainitializer.retry.service.RetryService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,6 +44,7 @@ public class GarminFileParserService implements GarminEventService {
     private final CsvEngine engine = new CsvEngine(RawActivities.class);
     private final GarminDataRepository garminRunRepository;
     private final FileNameTrackerRepository fileNameTrackerRepository;
+    private final RunAppUserRepository runAppUserRepository;
     private final RawGarminRunMapper rawActivitiesMapper;
     private final RetryService retryService;
     private final Environment env;
@@ -56,6 +62,15 @@ public class GarminFileParserService implements GarminEventService {
     @Value("${location.fileName}")
     private String fileName;
 
+    @Value("${eventstracker.url:}")
+    private String eventTrackerUrl;
+
+    @Value("${eventstracker.username:}")
+    private String eventTrackerUsername;
+
+    @Value("${eventstracker.password:}")
+    private String eventTrackerPassword;
+
     private String blobNameUrl;
 
     /**
@@ -64,6 +79,7 @@ public class GarminFileParserService implements GarminEventService {
      * @param garminRunRepository       the repository for GarminRun entities
      * @param rawActivitiesMapper       the mapper for converting RawActivities to GarminRun
      * @param fileNameTrackerRepository the repository for tracking file names
+     * @param runAppUserRepository     the repository for RunAppUser entities
      * @param retryService              the service for handling retries
      * @param env                       the environment for accessing properties
      */
@@ -71,12 +87,14 @@ public class GarminFileParserService implements GarminEventService {
             GarminDataRepository garminRunRepository,
             RawGarminRunMapper rawActivitiesMapper,
             FileNameTrackerRepository fileNameTrackerRepository,
+            RunAppUserRepository runAppUserRepository,
             RetryService retryService,
             Environment env,
             RestClient restClient) {
         this.garminRunRepository = garminRunRepository;
         this.rawActivitiesMapper = rawActivitiesMapper;
         this.fileNameTrackerRepository = fileNameTrackerRepository;
+        this.runAppUserRepository = runAppUserRepository;
         this.retryService = retryService;
         this.env = env;
         this.blobNameUrl = env.getProperty("blobNameUrl");
@@ -109,8 +127,11 @@ public class GarminFileParserService implements GarminEventService {
             try {
                 List<RawActivities> rawActivitiesList = getRawActivities();
                 recordRestClientEvent("SUCCESS- FILE READ", restClient);
+                // Get or create the default system user for createdBy
+                RunAppUser defaultUser = getOrCreateDefaultUser();
                 List<GarminRun> activitiesList = garminRunRepository.saveAll(rawActivitiesList.stream()
                         .map(rawActivitiesMapper::toEntity)
+                        .peek(garminRun -> garminRun.setCreatedBy(defaultUser))
                         .collect(Collectors.toList()));
                 recordRestClientEvent("SUCCESS- FILE PROCESSING COMPLETED FILE/BLOB_NAME/" + output, restClient);
                 logger.info("Saved the activities in the database: {}", activitiesList.size());
@@ -155,18 +176,60 @@ public class GarminFileParserService implements GarminEventService {
     }
 
     /**
+     * Gets or creates the default system user for audit fields.
+     *
+     * @return the default RunAppUser
+     */
+    private RunAppUser getOrCreateDefaultUser() {
+        return runAppUserRepository.findByEmail("system@garmin.com").orElseGet(() -> {
+            RunAppUser newUser = new RunAppUser();
+            newUser.setEmail("system@garmin.com");
+            newUser.setPassword("system");
+            newUser.setName("System User");
+            return runAppUserRepository.save(newUser);
+        });
+    }
+
+    /**
      * Updates the file details in the EventTracker repository.
      *
      * @param fileName the name of the file
      */
     private void updateUploadMetaDataDetails(String fileName) {
+        RunAppUser defaultUser = getOrCreateDefaultUser();
         FileNameTracker fileNameTracker = new FileNameTracker();
         fileNameTracker.setFileName(fileName);
+        fileNameTracker.setCreatedBy(defaultUser);
         fileNameTrackerRepository.save(fileNameTracker);
     }
 
     @Override
     public void recordRestClientEvent(String eventType, RestClient restClient) {
-
+        if (eventTrackerUrl == null || eventTrackerUrl.isEmpty()) {
+            logger.info("Event tracker URL not configured, skipping event: {}", eventType);
+            return;
+        }
+        try {
+            String auth = eventTrackerUsername + ":" + eventTrackerPassword;
+            String encodedAuth = Base64.getEncoder().encodeToString(auth.getBytes(StandardCharsets.UTF_8));
+            DomainEventDTO domainEventDTO = new DomainEventDTO();
+            domainEventDTO.setEventId("GARMIN-" + System.currentTimeMillis());
+            domainEventDTO.setEventType("GARMIN_EVENT");
+            domainEventDTO.setPayload(eventType);
+            domainEventDTO.setDomain(10002L);
+            domainEventDTO.setCreatedBy("SYSTEM");
+            domainEventDTO.setUpdatedBy("SYSTEM");
+            restClient
+                    .post()
+                    .uri(eventTrackerUrl)
+                    .body(domainEventDTO)
+                    .header("Authorization", "Basic " + encodedAuth)
+                    .header("Content-Type", "application/json")
+                    .retrieve()
+                    .toBodilessEntity();
+            logger.info("Event recorded successfully: {}", eventType);
+        } catch (Exception e) {
+            logger.warn("Failed to record event: {} - {}", eventType, e.getMessage());
+        }
     }
 }

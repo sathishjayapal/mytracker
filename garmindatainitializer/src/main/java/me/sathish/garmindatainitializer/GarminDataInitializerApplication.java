@@ -9,7 +9,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @SpringBootApplication
 @EnableScheduling
 @ConfigurationPropertiesScan
-@EnableJpaAuditing(auditorAwareRef = "auditAwareImpl")
+@EnableJpaAuditing(auditorAwareRef = "auditAwareImpl", dateTimeProviderRef = "dateTimeProvider")
 public class GarminDataInitializerApplication {
     public static void main(String[] args) {
         SpringApplication.run(GarminDataInitializerApplication.class, args);
