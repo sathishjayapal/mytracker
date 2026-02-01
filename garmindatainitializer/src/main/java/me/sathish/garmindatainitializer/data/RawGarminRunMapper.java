@@ -1,13 +1,12 @@
 package me.sathish.garmindatainitializer.data;
 
-import java.math.BigInteger;
 import org.springframework.stereotype.Service;
 
 @Service
 public class RawGarminRunMapper {
     public GarminRun toEntity(RawActivities rawActivities) {
         GarminRun activities = new GarminRun();
-//        activities.setActivityID(new BigInteger(rawActivities.getActivityID()));
+        activities.setActivityId(rawActivities.getActivityID());
         activities.setActivityDate(rawActivities.getActivityDate());
         activities.setActivityType(rawActivities.getActivityType());
         activities.setActivityDescription(rawActivities.getActivityDescription());

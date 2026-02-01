@@ -57,7 +57,5 @@ public class RetryService implements GarminEventService {
     }
 
     @Override
-    public void recordRestClientEvent(String eventType, RestClient restClient) {
-
-    }
+    public void recordRestClientEvent(String eventType, RestClient restClient) {}
 }

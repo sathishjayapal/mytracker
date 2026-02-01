@@ -9,18 +9,10 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Entity
-@NamedQueries({
-    @NamedQuery(
-            name = "FileNameTracker.findByFileName",
-            query = "SELECT f FROM FileNameTracker f WHERE f.fileName = :fileName"),
-    @NamedQuery(
-            name = "FileNameTracker.findByFileName.count",
-            query = "SELECT COUNT(f) FROM FileNameTracker f WHERE f.fileName = :fileName")
-})
 @EntityListeners(AuditingEntityListener.class)
 @Getter
 @Setter
-public class FileNameTracker {
+public class RunnerAppRole {
 
     @Id
     @Column(nullable = false, updatable = false)
@@ -32,16 +24,11 @@ public class FileNameTracker {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "primary_sequence")
     private Long id;
 
-    @Column(nullable = false, columnDefinition = "text")
-    private String fileName;
+    @Column(nullable = false, unique = true)
+    private String roleName;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "update_by_id")
-    private RunAppUser updatedBy;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "created_by_id", nullable = false)
-    private RunAppUser createdBy;
+    @Column(length = 255)
+    private String description;
 
     @CreatedDate
     @Column(nullable = false, updatable = false)
