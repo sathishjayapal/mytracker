@@ -19,15 +19,18 @@ import me.sathish.garmindatainitializer.data.GarminRun;
 import me.sathish.garmindatainitializer.data.RawActivities;
 import me.sathish.garmindatainitializer.data.RawGarminRunMapper;
 import me.sathish.garmindatainitializer.data.RunAppUser;
+import me.sathish.garmindatainitializer.data.RunnerAppRole;
 import me.sathish.garmindatainitializer.repos.FileNameTrackerRepository;
 import me.sathish.garmindatainitializer.repos.GarminDataRepository;
 import me.sathish.garmindatainitializer.repos.RunAppUserRepository;
+import me.sathish.garmindatainitializer.repos.RunnerAppRoleRepository;
 import me.sathish.garmindatainitializer.retry.service.RetryService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.core.env.Environment;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
@@ -45,6 +48,8 @@ public class GarminFileParserService implements GarminEventService {
     private final GarminDataRepository garminRunRepository;
     private final FileNameTrackerRepository fileNameTrackerRepository;
     private final RunAppUserRepository runAppUserRepository;
+    private final RunnerAppRoleRepository runnerAppRoleRepository;
+    private final PasswordEncoder passwordEncoder;
     private final RawGarminRunMapper rawActivitiesMapper;
     private final RetryService retryService;
     private final Environment env;
@@ -71,6 +76,9 @@ public class GarminFileParserService implements GarminEventService {
     @Value("${eventstracker.password:}")
     private String eventTrackerPassword;
 
+    @Value("${system.user.email:}")
+    private String systemUserEmail;
+
     private String blobNameUrl;
 
     /**
@@ -88,6 +96,8 @@ public class GarminFileParserService implements GarminEventService {
             RawGarminRunMapper rawActivitiesMapper,
             FileNameTrackerRepository fileNameTrackerRepository,
             RunAppUserRepository runAppUserRepository,
+            RunnerAppRoleRepository runnerAppRoleRepository,
+            PasswordEncoder passwordEncoder,
             RetryService retryService,
             Environment env,
             RestClient restClient) {
@@ -95,6 +105,8 @@ public class GarminFileParserService implements GarminEventService {
         this.rawActivitiesMapper = rawActivitiesMapper;
         this.fileNameTrackerRepository = fileNameTrackerRepository;
         this.runAppUserRepository = runAppUserRepository;
+        this.runnerAppRoleRepository = runnerAppRoleRepository;
+        this.passwordEncoder = passwordEncoder;
         this.retryService = retryService;
         this.env = env;
         this.blobNameUrl = env.getProperty("blobNameUrl");
@@ -181,12 +193,13 @@ public class GarminFileParserService implements GarminEventService {
      * @return the default RunAppUser
      */
     private RunAppUser getOrCreateDefaultUser() {
-        return runAppUserRepository.findByEmail("system@garmin.com").orElseGet(() -> {
-            RunAppUser newUser = new RunAppUser();
-            newUser.setEmail("system@garmin.com");
-            newUser.setPassword("system");
-            newUser.setName("System User");
-            return runAppUserRepository.save(newUser);
+        if (systemUserEmail == null || systemUserEmail.isBlank()) {
+            throw new IllegalStateException(
+                    "System user email is not configured. Please set 'system.user.email' environment variable.");
+        }
+        return runAppUserRepository.findByEmail(systemUserEmail).orElseGet(() -> {
+            throw new IllegalStateException(
+                    "System user email is not configured. Please contact admin.");
         });
     }
 
