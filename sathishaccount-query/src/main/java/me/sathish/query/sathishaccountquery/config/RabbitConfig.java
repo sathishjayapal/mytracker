@@ -15,18 +15,6 @@ public class RabbitConfig {
     @Value("${spring.application.name}")
     private String applicationName;
 
-    @Value("${spring.rabbitmq.username:user}")
-    private String username = "guest";
-
-    @Value("${spring.rabbitmq.password:password}")
-    private String password = "guest";
-
-    @Value("${spring.rabbitmq.host:127.0.0.1}")
-    private String hostname = "localhost";
-
-    @Value("${spring.rabbitmq.port:5672}")
-    private String port = "port";
-
     @Bean
     ConnectionNameStrategy connectionNameStrategy() {
         return (connectionFactory) -> applicationName;
