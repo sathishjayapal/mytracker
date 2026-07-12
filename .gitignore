@@ -76,3 +76,4 @@ target/
 
 logs/
 /.env
+/trackmeditation/docker/.env.example
