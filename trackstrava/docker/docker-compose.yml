@@ -4,9 +4,18 @@ services:
   postgresqldb:
     image: postgres:15-alpine
     environment:
-      - POSTGRES_USER=appuser
-      - POSTGRES_PASSWORD=secret
-      - POSTGRES_DB=appdb
+        - POSTGRES_USER=${TRACKSTRAVA_DB_USER:?set in docker/.env (see .env.example)}
+        - POSTGRES_PASSWORD=${TRACKSTRAVA_DB_PASSWORD:?set in docker/.env (see .env.example)}
+        - POSTGRES_DB=${TRACKSTRAVA_DB_NAME:-appdb}
     ports:
       - "5432:5432"
+    volumes:
+        - trackstrava_pg_data:/var/lib/postgresql/data
+    healthcheck:
+        test: [ "CMD-SHELL", "pg_isready -U ${TRACKSTRAVA_DB_USER} -d ${TRACKSTRAVA_DB_NAME:-appdb}" ]
+        interval: 10s
+        timeout: 5s
+        retries: 5
 
+volumes:
+    trackstrava_pg_data:
