@@ -1,14 +1,16 @@
-version: '3.8'
+# Standalone DB compose for trackmeditation — host port 5440 matches the shared `mytracker-db`
+# service in consolidated-postgres/compose/docker-compose-local.yml (trackstrava and
+# trackmeditation share that one port, so run one of these at a time).
 services:
 
   postgresqldb:
-    image: postgres:16.0-alpine
+    image: postgres:16.15
     environment:
       - POSTGRES_USER=${TRACKMEDITATION_DB_USER:?set in docker/.env (see .env.example)}
       - POSTGRES_PASSWORD=${TRACKMEDITATION_DB_PASSWORD:?set in docker/.env (see .env.example)}
       - POSTGRES_DB=${TRACKMEDITATION_DB_NAME:-appdb}
     ports:
-      - "5432:5432"
+      - "5440:5432"
     volumes:
       - trackmeditation_pg_data:/var/lib/postgresql/data
     healthcheck:
